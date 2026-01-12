@@ -1,335 +1,355 @@
 // Animal data for the learning app
-// Using placeholder image URLs and sound paths
-// In production, these would be actual image files in public/images/ and audio files in public/audio/
+// Images and audio files should be placed in public/images/ and public/audio/ respectively
 
 export const animals = [
-  // Farm Animals
+  // Birds
   {
     id: 1,
-    name: 'Cow',
-    category: 'farm',
-    image: 'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?w=400',
-    habitat: 'Farm',
-    sound: '/audio/cow.mp3',
-    facts: 'Cows are gentle farm animals that give us milk.'
+    name: "Owl",
+    category: "birds",
+    image: "/images/owl.jpg",
+    habitat: "Forest",
+    sound: "/audio/owl.mp3",
+    facts: "Owls are birds known for their distinct calls and natural sounds.",
   },
-  {
-    id: 2,
-    name: 'Pig',
-    category: 'farm',
-    image: 'https://images.unsplash.com/photo-1587796817786-0b04febd8d94?w=400',
-    habitat: 'Farm',
-    sound: '/audio/pig.mp3',
-    facts: 'Pigs are smart animals that love to roll in mud.'
-  },
-  {
-    id: 3,
-    name: 'Chicken',
-    category: 'farm',
-    image: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400',
-    habitat: 'Farm',
-    sound: '/audio/chicken.mp3',
-    facts: 'Chickens lay eggs and wake us up in the morning.'
-  },
-  {
-    id: 4,
-    name: 'Horse',
-    category: 'farm',
-    image: 'https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=400',
-    habitat: 'Farm',
-    sound: '/audio/horse.mp3',
-    facts: 'Horses are strong and fast animals that people ride.'
-  },
-  {
-    id: 5,
-    name: 'Sheep',
-    category: 'farm',
-    image: 'https://images.unsplash.com/photo-1525248674567-d4d28a4bb3a7?w=400',
-    habitat: 'Farm',
-    sound: '/audio/sheep.mp3',
-    facts: 'Sheep have fluffy wool that keeps them warm.'
-  },
-  {
-    id: 6,
-    name: 'Goat',
-    category: 'farm',
-    image: 'https://images.unsplash.com/photo-1548537149-f3b9805c9d18?w=400',
-    habitat: 'Farm',
-    sound: '/audio/goat.mp3',
-    facts: 'Goats love to climb and eat grass.'
-  },
-  {
-    id: 7,
-    name: 'Duck',
-    category: 'farm',
-    image: 'https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=400',
-    habitat: 'Farm',
-    sound: '/audio/duck.mp3',
-    facts: 'Ducks can swim and fly. They quack!'
-  },
-  {
-    id: 8,
-    name: 'Rooster',
-    category: 'farm',
-    image: 'https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=400',
-    habitat: 'Farm',
-    sound: '/audio/rooster.mp3',
-    facts: 'Roosters crow loudly to wake everyone up.'
-  },
-  
-  // Wild Animals
   {
     id: 9,
-    name: 'Lion',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=400',
-    habitat: 'Savanna',
-    sound: '/audio/lion.mp3',
-    facts: 'Lions are the king of the jungle and roar loudly.'
-  },
-  {
-    id: 10,
-    name: 'Elephant',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
-    habitat: 'Savanna',
-    sound: '/audio/elephant.mp3',
-    facts: 'Elephants are the biggest land animals with long trunks.'
-  },
-  {
-    id: 11,
-    name: 'Tiger',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=400',
-    habitat: 'Jungle',
-    sound: '/audio/tiger.mp3',
-    facts: 'Tigers have orange fur with black stripes.'
+    name: "Osprey",
+    category: "birds",
+    image: "/images/osprey.jpg",
+    habitat: "Water",
+    sound: "/audio/osprey.mp3",
+    facts:
+      "Ospreys are birds known for their distinct calls and natural sounds.",
   },
   {
     id: 12,
-    name: 'Bear',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=400',
-    habitat: 'Forest',
-    sound: '/audio/bear.mp3',
-    facts: 'Bears are big and strong. They love honey!'
+    name: "Pigeons",
+    category: "birds",
+    image: "/images/pigeons.jpg",
+    habitat: "Urban",
+    sound: "/audio/pigeons.mp3",
+    facts:
+      "Pigeons are birds known for their distinct calls and natural sounds.",
   },
   {
     id: 13,
-    name: 'Monkey',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=400',
-    habitat: 'Jungle',
-    sound: '/audio/monkey.mp3',
-    facts: 'Monkeys love to swing from trees and play.'
-  },
-  {
-    id: 14,
-    name: 'Giraffe',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1524781289445-ddf8f5695861?w=400',
-    habitat: 'Savanna',
-    sound: '/audio/giraffe.mp3',
-    facts: 'Giraffes have very long necks to reach tall trees.'
-  },
-  {
-    id: 15,
-    name: 'Zebra',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400',
-    habitat: 'Savanna',
-    sound: '/audio/zebra.mp3',
-    facts: 'Zebras have black and white stripes.'
-  },
-  {
-    id: 16,
-    name: 'Wolf',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=400',
-    habitat: 'Forest',
-    sound: '/audio/wolf.mp3',
-    facts: 'Wolves howl at the moon and live in packs.'
-  },
-  {
-    id: 17,
-    name: 'Fox',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400',
-    habitat: 'Forest',
-    sound: '/audio/fox.mp3',
-    facts: 'Foxes are clever animals with bushy tails.'
+    name: "Canary",
+    category: "birds",
+    image: "/images/canary.jpg",
+    habitat: "Home",
+    sound: "/audio/canary.mp3",
+    facts:
+      "Canaries are birds known for their distinct calls and natural sounds.",
   },
   {
     id: 18,
-    name: 'Deer',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=400',
-    habitat: 'Forest',
-    sound: '/audio/deer.mp3',
-    facts: 'Deer have antlers and are very fast runners.'
+    name: "Finch",
+    category: "birds",
+    image: "/images/finch.jpg",
+    habitat: "Grassland",
+    sound: "/audio/finch.mp3",
+    facts:
+      "Finches are birds known for their distinct calls and natural sounds.",
   },
   {
     id: 19,
-    name: 'Rabbit',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400',
-    habitat: 'Forest',
-    sound: '/audio/rabbit.mp3',
-    facts: 'Rabbits have long ears and love carrots.'
+    name: "Lapwing",
+    category: "birds",
+    image: "/images/lapwing.jpg",
+    habitat: "Grassland",
+    sound: "/audio/lapwing.mp3",
+    facts:
+      "Lapwings are birds known for their distinct calls and natural sounds.",
   },
   {
     id: 20,
-    name: 'Squirrel',
-    category: 'wild',
-    image: 'https://images.unsplash.com/photo-1602097775330-32c32e04c9d6?w=400',
-    habitat: 'Forest',
-    sound: '/audio/squirrel.mp3',
-    facts: 'Squirrels collect nuts and climb trees quickly.'
+    name: "Yellow-rumped-warbler",
+    category: "birds",
+    image: "/images/yellowrumpedwarbler.jpg",
+    habitat: "Forest",
+    sound: "/audio/yellowrumpedwarbler.mp3",
+    facts:
+      "Yellow-rumped warblers are birds known for their distinct calls and natural sounds.",
   },
-  
-  // Ocean Animals
   {
     id: 21,
-    name: 'Dolphin',
-    category: 'ocean',
-    image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400',
-    habitat: 'Ocean',
-    sound: '/audio/dolphin.mp3',
-    facts: 'Dolphins are smart and love to jump out of water.'
-  },
-  {
-    id: 22,
-    name: 'Shark',
-    category: 'ocean',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400',
-    habitat: 'Ocean',
-    sound: '/audio/shark.mp3',
-    facts: 'Sharks are fast swimmers with sharp teeth.'
-  },
-  {
-    id: 23,
-    name: 'Whale',
-    category: 'ocean',
-    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
-    habitat: 'Ocean',
-    sound: '/audio/whale.mp3',
-    facts: 'Whales are the biggest animals in the ocean.'
-  },
-  {
-    id: 24,
-    name: 'Octopus',
-    category: 'ocean',
-    image: 'https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?w=400',
-    habitat: 'Ocean',
-    sound: '/audio/octopus.mp3',
-    facts: 'Octopuses have eight arms and are very smart.'
-  },
-  {
-    id: 25,
-    name: 'Seal',
-    category: 'ocean',
-    image: 'https://images.unsplash.com/photo-1594736797933-d0c10df336e2?w=400',
-    habitat: 'Ocean',
-    sound: '/audio/seal.mp3',
-    facts: 'Seals can swim in water and walk on land.'
-  },
-  {
-    id: 26,
-    name: 'Seahorse',
-    category: 'ocean',
-    image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=400',
-    habitat: 'Ocean',
-    sound: '/audio/seahorse.mp3',
-    facts: 'Seahorses swim upright and look like tiny horses.'
-  },
-  {
-    id: 27,
-    name: 'Turtle',
-    category: 'ocean',
-    image: 'https://images.unsplash.com/photo-1601524909168-e1af2c81e0c8?w=400',
-    habitat: 'Ocean',
-    sound: '/audio/turtle.mp3',
-    facts: 'Turtles have hard shells to protect themselves.'
-  },
-  {
-    id: 28,
-    name: 'Starfish',
-    category: 'ocean',
-    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
-    habitat: 'Ocean',
-    sound: '/audio/starfish.mp3',
-    facts: 'Starfish have five arms and live in the ocean.'
-  },
-  
-  // Pet Animals
-  {
-    id: 29,
-    name: 'Dog',
-    category: 'pet',
-    image: 'https://images.unsplash.com/photo-1583336663277-620dc1996580?w=400',
-    habitat: 'Home',
-    sound: '/audio/dog.mp3',
-    facts: 'Dogs are loyal friends that love to play.'
-  },
-  {
-    id: 30,
-    name: 'Cat',
-    category: 'pet',
-    image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400',
-    habitat: 'Home',
-    sound: '/audio/cat.mp3',
-    facts: 'Cats are independent and love to nap in the sun.'
-  },
-  {
-    id: 31,
-    name: 'Hamster',
-    category: 'pet',
-    image: 'https://images.unsplash.com/photo-1534361960057-19889db9621e?w=400',
-    habitat: 'Home',
-    sound: '/audio/hamster.mp3',
-    facts: 'Hamsters are small and love to run on wheels.'
+    name: "Peacock",
+    category: "birds",
+    image: "/images/peacock.jpg",
+    habitat: "Tropical",
+    sound: "/audio/peacock.mp3",
+    facts:
+      "Peacocks are birds known for their distinct calls and natural sounds.",
   },
   {
     id: 32,
-    name: 'Guinea Pig',
-    category: 'pet',
-    image: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=400',
-    habitat: 'Home',
-    sound: '/audio/guinea-pig.mp3',
-    facts: 'Guinea pigs are friendly pets that love to squeak and cuddle.'
+    name: "Seagull",
+    category: "birds",
+    image: "/images/Seagull.jpg",
+    habitat: "Water",
+    sound: "/audio/Seagull.mp3",
+    facts:
+      "Seagulls are birds known for their distinct calls and natural sounds.",
   },
   {
     id: 33,
-    name: 'Bird',
-    category: 'pet',
-    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
-    habitat: 'Home',
-    sound: '/audio/bird.mp3',
-    facts: 'Pet birds can sing beautiful songs.'
+    name: "Mockingbird",
+    category: "birds",
+    image: "/images/mockingbird.jpg",
+    habitat: "Urban",
+    sound: "/audio/mockingbird.mp3",
+    facts:
+      "Mockingbirds are birds known for their distinct calls and natural sounds.",
+  },
+  {
+    id: 15,
+    name: "Amazon-macaw",
+    category: "birds",
+    image: "/images/amazonmacaw.jpg",
+    habitat: "Tropical",
+    sound: "/audio/amazonmacaw.mp3",
+    facts:
+      "Amazon macaws are birds known for their distinct calls and natural sounds.",
+  },
+  {
+    id: 5,
+    name: "Vulture",
+    category: "birds",
+    image: "/images/vulture.jpg",
+    habitat: "Grassland",
+    sound: "/audio/vulture.mp3",
+    facts:
+      "Vultures are birds known for their distinct calls and natural sounds.",
+  },
+
+  // Wild Animals
+  {
+    id: 2,
+    name: "Elephant",
+    category: "wild",
+    image: "/images/elephant.jpg",
+    habitat: "Grassland",
+    sound: "/audio/elephant.mp3",
+    facts:
+      "Elephants are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 4,
+    name: "Leopard",
+    category: "wild",
+    image: "/images/leopard.jpg",
+    habitat: "Forest",
+    sound: "/audio/leopard.mp3",
+    facts:
+      "Leopards are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 8,
+    name: "Squirrel",
+    category: "wild",
+    image: "/images/squirrel.jpg",
+    habitat: "Forest",
+    sound: "/audio/squirrel.mp3",
+    facts:
+      "Squirrels are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 10,
+    name: "Fox",
+    category: "wild",
+    image: "/images/fox.jpg",
+    habitat: "Forest",
+    sound: "/audio/fox.mp3",
+    facts:
+      "Foxes are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 11,
+    name: "Elk",
+    category: "wild",
+    image: "/images/elk.jpg",
+    habitat: "Forest",
+    sound: "/audio/elk.mp3",
+    facts:
+      "Elks are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 22,
+    name: "Puma",
+    category: "wild",
+    image: "/images/puma.jpg",
+    habitat: "Forest",
+    sound: "/audio/puma.mp3",
+    facts:
+      "Pumas are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 25,
+    name: "Gorilla",
+    category: "wild",
+    image: "/images/gorilla.jpg",
+    habitat: "Forest",
+    sound: "/audio/gorilla.mp3",
+    facts:
+      "Gorillas are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 26,
+    name: "Chimpanzee",
+    category: "wild",
+    image: "/images/Chimpanzee.jpg",
+    habitat: "Forest",
+    sound: "/audio/Chimpanzee.mp3",
+    facts:
+      "Chimpanzees are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 27,
+    name: "Bison",
+    category: "wild",
+    image: "/images/bison.jpg",
+    habitat: "Grassland",
+    sound: "/audio/bison.mp3",
+    facts:
+      "Bisons are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 28,
+    name: "Tiger",
+    category: "wild",
+    image: "/images/tiger.jpg",
+    habitat: "Forest",
+    sound: "/audio/tiger.mp3",
+    facts:
+      "Tigers are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 31,
+    name: "Wolf",
+    category: "wild",
+    image: "/images/wolf.jpg",
+    habitat: "Forest",
+    sound: "/audio/wolf.mp3",
+    facts:
+      "Wolves are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 24,
+    name: "Rattlesnake",
+    category: "wild",
+    image: "/images/rattlesnake.jpg",
+    habitat: "Desert",
+    sound: "/audio/rattlesnake.mp3",
+    facts:
+      "Rattlesnakes are wild animals known for their natural sounds in the ecosystem.",
   },
   {
     id: 34,
-    name: 'Fish',
-    category: 'pet',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400',
-    habitat: 'Home',
-    sound: '/audio/fish.mp3',
-    facts: 'Pet fish live in aquariums and swim all day.'
-  }
+    name: "Alligator",
+    category: "wild",
+    image: "/images/alligator.jpg",
+    habitat: "Water",
+    sound: "/audio/alligator.mp3",
+    facts:
+      "Alligators are wild animals known for their natural sounds in the ecosystem.",
+  },
+  {
+    id: 23,
+    name: "Capuchin monkey",
+    category: "wild",
+    image: "/images/capuchin-monkey.jpg",
+    habitat: "Tropical",
+    sound: "/audio/capuchin-monkey.mp3",
+    facts:
+      "Capuchin monkeys are wild animals known for their natural sounds in the ecosystem.",
+  },
+
+  // Farm Animals
+  {
+    id: 3,
+    name: "Donkey",
+    category: "farm",
+    image: "/images/donkey.jpg",
+    habitat: "Farm",
+    sound: "/audio/donkey.mp3",
+    facts:
+      "Donkeys are common farm animals and are easy to recognize by their sounds.",
+  },
+  {
+    id: 30,
+    name: "Pony",
+    category: "farm",
+    image: "/images/pony.jpg",
+    habitat: "Farm",
+    sound: "/audio/pony.mp3",
+    facts: "Ponies are farm animals known for their natural sounds.",
+  },
+  {
+    id: 29,
+    name: "Turkey",
+    category: "farm",
+    image: "/images/Turkey.jpg",
+    habitat: "Farm",
+    sound: "/audio/Turkey.mp3",
+    facts: "Turkeys are farm animals known for their natural sounds.",
+  },
+
+  // Insects
+  {
+    id: 6,
+    name: "Grasshopper",
+    category: "insects",
+    image: "/images/grasshopper.jpg",
+    habitat: "Grassland",
+    sound: "/audio/grasshopper.mp3",
+    facts:
+      "Grasshoppers are small insects that produce unique buzzing or chirping sounds.",
+  },
+  {
+    id: 7,
+    name: "Cricket",
+    category: "insects",
+    image: "/images/crickets.jpg",
+    habitat: "Grassland",
+    sound: "/audio/crickets.mp3",
+    facts:
+      "Crickets are small insects that produce unique buzzing or chirping sounds.",
+  },
+  {
+    id: 14,
+    name: "Mosquito",
+    category: "insects",
+    image: "/images/mosquito.jpg",
+    habitat: "Water",
+    sound: "/audio/mosquito.mp3",
+    facts:
+      "Mosquitos are small insects that produce unique buzzing or chirping sounds.",
+  },
+  {
+    id: 17,
+    name: "Bee",
+    category: "insects",
+    image: "/images/bee.jpg",
+    habitat: "Grassland",
+    sound: "/audio/bee.mp3",
+    facts:
+      "Bees are small insects that produce unique buzzing or chirping sounds.",
+  },
 ];
 
 // Helper function to get animals by category
 export const getAnimalsByCategory = (category) => {
-  return animals.filter(animal => animal.category === category);
+  return animals.filter((animal) => animal.category === category);
 };
 
 // Helper function to get random animals
 export const getRandomAnimals = (count) => {
-  const shuffled = [...animals].sort(() => 0.5 - Math.random());
+  const shuffled = [...animals].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 };
 
 // Helper function to get animal by id
 export const getAnimalById = (id) => {
-  return animals.find(animal => animal.id === id);
+  return animals.find((animal) => animal.id === id);
 };

@@ -27,10 +27,28 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.game-score span {
-  font-size: 24px;
+.score-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-label {
+  font-size: 20px;
+  color: #666;
+  font-weight: 500;
+}
+
+.score-value {
+  font-size: 28px;
   font-weight: bold;
-  color: #2c3e50;
+  color: #4a90e2;
+}
+
+.score-max {
+  font-size: 20px;
+  color: #999;
+  font-weight: 500;
 }
 
 .new-game-button {
@@ -62,6 +80,22 @@
   padding: 32px;
   text-align: center;
   margin-bottom: 32px;
+  animation: complete-bounce 0.8s ease;
+  box-shadow: 0 8px 24px rgba(40, 167, 69, 0.3);
+}
+
+@keyframes complete-bounce {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .game-complete h2 {
@@ -147,8 +181,24 @@
 .animal-match-card.matched {
   border-color: #28a745;
   background: #d4edda;
-  opacity: 0.7;
+  opacity: 0.85;
   cursor: not-allowed;
+}
+
+.animal-match-card.just-matched {
+  animation: match-gentle 0.3s ease;
+}
+
+@keyframes match-gentle {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .animal-match-card:disabled {
@@ -176,6 +226,19 @@
   justify-content: center;
   font-size: 24px;
   font-weight: bold;
+  animation: check-gentle 0.3s ease;
+  box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);
+}
+
+@keyframes check-gentle {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .names-grid {
@@ -221,8 +284,9 @@
 .name-button.matched {
   border-color: #28a745;
   background: #d4edda;
-  opacity: 0.7;
+  opacity: 0.85;
   cursor: not-allowed;
+  /* Removed pulse animation - too much movement for autism-friendly design */
 }
 
 .name-button:disabled {
@@ -280,5 +344,12 @@
   .animal-match-card:hover:not(:disabled),
   .name-button:hover:not(:disabled) {
     transform: none;
+  }
+  
+  .animal-match-card.just-matched,
+  .name-button.matched,
+  .match-check,
+  .game-complete {
+    animation: none;
   }
 }

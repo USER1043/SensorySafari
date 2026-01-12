@@ -5,7 +5,7 @@ import './AnimalGallery.css';
 
 function AnimalGallery() {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const categories = ['all', 'farm', 'wild', 'ocean', 'pet'];
+  const categories = ['all', 'farm', 'wild', 'birds', 'insects'];
 
   const filteredAnimals = selectedCategory === 'all' 
     ? animals 
@@ -27,8 +27,8 @@ function AnimalGallery() {
             {category === 'all' ? '🌟 All Animals' : 
              category === 'farm' ? '🚜 Farm Animals' :
              category === 'wild' ? '🌲 Wild Animals' :
-             category === 'ocean' ? '🌊 Ocean Animals' :
-             '🏠 Pet Animals'}
+             category === 'birds' ? '🐦 Birds' :
+             '🐛 Insects'}
           </button>
         ))}
       </div>

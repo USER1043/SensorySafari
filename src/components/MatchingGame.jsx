@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getRandomAnimals } from '../data/animals';
+import { animals as allAnimals } from '../data/animals';
+import Confetti from './Confetti';
 import './MatchingGame.css';
 
 function MatchingGame() {
@@ -10,9 +11,13 @@ function MatchingGame() {
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [score, setScore] = useState(0);
   const [gameComplete, setGameComplete] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [lastMatchedId, setLastMatchedId] = useState(null);
 
   const startNewGame = () => {
-    const gameAnimals = getRandomAnimals(6);
+    // Get 6 unique random animals (no duplicates)
+    const shuffled = [...allAnimals].sort(() => Math.random() - 0.5);
+    const gameAnimals = shuffled.slice(0, 6);
     const names = gameAnimals.map(a => a.name).sort(() => Math.random() - 0.5);
     
     setAnimals(gameAnimals);
@@ -22,6 +27,7 @@ function MatchingGame() {
     setMatchedPairs([]);
     setScore(0);
     setGameComplete(false);
+    setLastMatchedId(null);
   };
 
   useEffect(() => {
@@ -53,11 +59,60 @@ function MatchingGame() {
     }
   };
 
+  const playMatchSound = () => {
+    // Gentle, calming sound for autism-friendly design
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Simple, gentle tone
+      
+      gainNode.gain.setValueAtTime(0.12, audioContext.currentTime); // Very quiet
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    } catch (e) {
+      // Silent fail
+    }
+  };
+
+  const playErrorSound = () => {
+    // Very gentle error sound
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+      gainNode.gain.setValueAtTime(0.08, audioContext.currentTime); // Very quiet
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.15);
+    } catch (e) {
+      // Silent fail
+    }
+  };
+
   const checkMatch = (animalId, name) => {
     if (animalId && name) {
       const animal = animals.find(a => a.id === animalId);
       if (animal && animal.name === name) {
         // Correct match!
+        playMatchSound();
+        setLastMatchedId(animalId);
+        // Subtle confetti for autism-friendly design
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 800); // Shorter duration
+        
         setMatchedPairs(prevMatchedPairs => {
           const newMatchedPairs = [...prevMatchedPairs, animalId];
           
@@ -65,6 +120,8 @@ function MatchingGame() {
           setTimeout(() => {
             if (newMatchedPairs.length === animals.length) {
               setGameComplete(true);
+              setShowConfetti(true);
+              setTimeout(() => setShowConfetti(false), 1500); // Shorter duration
             }
           }, 500);
           
@@ -75,6 +132,7 @@ function MatchingGame() {
         setSelectedName(null);
       } else {
         // Incorrect match
+        playErrorSound();
         setTimeout(() => {
           setSelectedAnimal(null);
           setSelectedName(null);
@@ -104,13 +162,18 @@ function MatchingGame() {
 
   return (
     <div className="matching-game">
+      <Confetti active={showConfetti} />
       <h1 className="game-title">Matching Game</h1>
       <p className="game-instructions">
         Click on an animal picture and then click on its name to make a match!
       </p>
 
       <div className="game-score">
-        <span>Score: {score}</span>
+        <div className="score-info">
+          <span className="score-label">Score:</span>
+          <span className="score-value">{score}</span>
+          <span className="score-max">/ {animals.length * 10}</span>
+        </div>
         <button className="new-game-button" onClick={startNewGame}>
           🔄 New Game
         </button>
@@ -138,6 +201,8 @@ function MatchingGame() {
                   isMatched(animal.id) ? 'matched' : ''
                 } ${
                   isAnimalSelected(animal.id) ? 'selected' : ''
+                } ${
+                  lastMatchedId === animal.id ? 'just-matched' : ''
                 }`}
                 onClick={() => handleAnimalClick(animal)}
                 disabled={isMatched(animal.id)}
