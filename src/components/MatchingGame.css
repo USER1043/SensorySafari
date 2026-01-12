@@ -1,0 +1,284 @@
+.matching-game {
+  width: 100%;
+}
+
+.game-title {
+  font-size: 42px;
+  color: #2c3e50;
+  text-align: center;
+  margin: 0 0 12px 0;
+}
+
+.game-instructions {
+  font-size: 22px;
+  color: #666;
+  text-align: center;
+  margin: 0 0 32px 0;
+}
+
+.game-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 20px 32px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.game-score span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.new-game-button {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-height: 60px;
+}
+
+.new-game-button:hover {
+  background: #357abd;
+}
+
+.new-game-button:focus {
+  outline: 3px solid #ffd700;
+  outline-offset: 2px;
+}
+
+.game-complete {
+  background: #d4edda;
+  border: 4px solid #28a745;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.game-complete h2 {
+  font-size: 36px;
+  color: #155724;
+  margin: 0 0 16px 0;
+}
+
+.game-complete p {
+  font-size: 22px;
+  color: #155724;
+  margin: 8px 0;
+}
+
+.play-again-button {
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 16px;
+  min-height: 60px;
+  transition: background-color 0.2s ease;
+}
+
+.play-again-button:hover {
+  background: #218838;
+}
+
+.matching-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.section-title {
+  font-size: 28px;
+  color: #2c3e50;
+  text-align: center;
+  margin: 0 0 24px 0;
+}
+
+.animals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.animal-match-card {
+  position: relative;
+  background: white;
+  border: 4px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.animal-match-card:hover:not(:disabled) {
+  border-color: #4a90e2;
+  transform: scale(1.05);
+}
+
+.animal-match-card:focus {
+  outline: 3px solid #ffd700;
+  outline-offset: 2px;
+}
+
+.animal-match-card.selected {
+  border-color: #4a90e2;
+  background: #e3f2fd;
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.3);
+}
+
+.animal-match-card.matched {
+  border-color: #28a745;
+  background: #d4edda;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.animal-match-card:disabled {
+  cursor: not-allowed;
+}
+
+.animal-match-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.match-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #28a745;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.names-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.name-button {
+  background: white;
+  border: 4px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 80px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.name-button:hover:not(:disabled) {
+  border-color: #4a90e2;
+  background: #e3f2fd;
+  transform: scale(1.02);
+}
+
+.name-button:focus {
+  outline: 3px solid #ffd700;
+  outline-offset: 2px;
+}
+
+.name-button.selected {
+  border-color: #4a90e2;
+  background: #e3f2fd;
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.3);
+}
+
+.name-button.matched {
+  border-color: #28a745;
+  background: #d4edda;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.name-button:disabled {
+  cursor: not-allowed;
+}
+
+@media (max-width: 1024px) {
+  .matching-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .animals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 32px;
+  }
+  
+  .game-instructions {
+    font-size: 18px;
+  }
+  
+  .game-score {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .animals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .names-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .name-button {
+    font-size: 20px;
+    padding: 20px;
+    min-height: 70px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animal-match-card,
+  .name-button {
+    transition: none;
+  }
+  
+  .animal-match-card:hover:not(:disabled),
+  .name-button:hover:not(:disabled) {
+    transform: none;
+  }
+}
