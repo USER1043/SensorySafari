@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-import './Home.css';
+import { Link } from "react-router-dom";
+import "./Home.css";
 
 function Home() {
   return (
     <div className="home-container">
       <div className="home-hero">
-        <h1 className="home-title">🦁 Animal Learning 🐾</h1>
+        <h1 className="home-title">🦁 Sensory Safari 🐾</h1>
         <p className="home-subtitle">
           Learn about amazing animals through fun activities!
         </p>
@@ -16,7 +16,8 @@ function Home() {
           <div className="activity-icon">🖼️</div>
           <h2 className="activity-title">Animal Gallery</h2>
           <p className="activity-description">
-            Browse through our collection of animals. Click on any animal to learn more and hear their sound!
+            Browse through our collection of animals. Click on any animal to
+            learn more and hear their sound!
           </p>
           <div className="activity-button">Explore Gallery →</div>
         </Link>
@@ -25,7 +26,8 @@ function Home() {
           <div className="activity-icon">🎯</div>
           <h2 className="activity-title">Matching Game</h2>
           <p className="activity-description">
-            Test your knowledge by matching animal pictures with their names. How many can you get right?
+            Test your knowledge by matching animal pictures with their names.
+            How many can you get right?
           </p>
           <div className="activity-button">Play Game →</div>
         </Link>
@@ -34,7 +36,8 @@ function Home() {
           <div className="activity-icon">❓</div>
           <h2 className="activity-title">Animal Quiz</h2>
           <p className="activity-description">
-            Take a quiz to see how well you know animals. Answer 10 questions and see your score!
+            Take a quiz to see how well you know animals. Answer 10 questions
+            and see your score!
           </p>
           <div className="activity-button">Start Quiz →</div>
         </Link>
