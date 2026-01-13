@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navigation.css';
+import logo from '../assets/logo.png';
 
 function Navigation() {
   const location = useLocation();
@@ -22,7 +23,7 @@ function Navigation() {
     <nav className="main-navigation" role="navigation" aria-label="Main navigation">
       <div className="nav-container">
         <Link to="/" className="nav-logo" onClick={closeMenu}>
-          <img src="/favicon.png" alt="Animal Learning" className="nav-logo-icon" style={{width: '1.5em', height: '1.5em'}}/>
+          <img src={logo} alt="Logo" className="nav-logo-icon" style={{width: '1.5em', height: '1.5em'}}/>
           Animal Learning
         </Link>
         
