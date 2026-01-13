@@ -2,15 +2,13 @@
 
 An interactive and accessible animal learning web application designed with autism-friendly features. Learn about amazing animals through fun activities including an animal gallery, matching games, and quizzes!
 
-![Sensory Safari](https://images.unsplash.com/photo-1560807707-8cc77767d783?w=1200&h=400&fit=crop)
-
 ---
 
 ## ✨ Features
 
 ### 🎨 Interactive Animal Gallery
 
-- Browse through a collection of **34 different animals**
+- Browse through a collection of **33 different animals**
 - Filter animals by category: **Farm Animals**, **Wild Animals**, **Birds**, and **Insects**
 - Click on any animal to see high-quality images and learn fun facts
 - Listen to authentic animal sounds
@@ -102,8 +100,8 @@ The built files will be in the `dist/` directory.
 ```
 animal-learning-app/
 ├── public/
-│   ├── audio/          # Animal sound files (34 unique sounds)
-│   ├── images/         # Animal images (34 unique photos)
+│   ├── audio/          # Animal sound files (33 unique sounds)
+│   ├── images/         # Animal images (33 unique photos)
 │   └── vite.svg        # Vite logo
 ├── src/
 │   ├── assets/         # Static assets (logos, icons)
@@ -125,7 +123,7 @@ animal-learning-app/
 │   │   ├── Quiz.jsx            # Quiz game component
 │   │   └── Quiz.css
 │   ├── data/
-│   │   └── animals.js          # Animal data (34 animals)
+│   │   └── animals.js          # Animal data (33 animals)
 │   ├── App.jsx                 # Main app with routing
 │   ├── App.css
 │   ├── index.css               # Global styles
@@ -142,9 +140,9 @@ animal-learning-app/
 
 ### 🐦 Birds (12 species)
 
-Owl, Osprey, Pigeons, Canary, Finch, Lapwing, Yellow-rumped Warbler, Peacock, Seagull, Mockingbird, Amazon Macaw, Vulture
+Owl, Osprey, Pigeon, Canary, Finch, Lapwing, Yellow-rumped Warbler, Peacock, Seagull, Mockingbird, Amazon Macaw, Vulture
 
-### 🌲 Wild Animals (13 species)
+### 🌲 Wild Animals (14 species)
 
 Elephant, Leopard, Squirrel, Fox, Elk, Puma, Gorilla, Chimpanzee, Bison, Tiger, Wolf, Rattlesnake, Alligator, Capuchin Monkey
 
@@ -156,7 +154,7 @@ Donkey, Pony, Turkey
 
 Grasshopper, Cricket, Mosquito, Bee
 
-**Total: 34 unique animals** with images and authentic sounds!
+**Total: 33 unique animals** with images and authentic sounds!
 
 ---
 
