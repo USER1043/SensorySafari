@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import AnimalCard from './AnimalCard';
-import { animals, getAnimalsByCategory } from '../data/animals';
+// Removed static animals import
 import './AnimalGallery.css';
 
-function AnimalGallery() {
+function AnimalGallery({ animals }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const categories = ['all', 'farm', 'wild', 'birds', 'insects'];
 
   const filteredAnimals = selectedCategory === 'all' 
     ? animals 
-    : getAnimalsByCategory(selectedCategory);
+    : animals.filter(animal => animal.category === selectedCategory);
 
   return (
     <div className="animal-gallery">

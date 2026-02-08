@@ -92,6 +92,16 @@ function Navigation() {
               ❓ Quiz
             </Link>
           </li>
+          <li>
+            <Link
+              to="/add"
+              className={`nav-link ${isActive("/add") ? "active" : ""}`}
+              aria-current={isActive("/add") ? "page" : undefined}
+              onClick={closeMenu}
+            >
+              🐱 Add Animal
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

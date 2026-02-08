@@ -1,5 +1,6 @@
 import Navigation from './Navigation';
 import './Layout.css';
+import Footer from './Footer';  
 
 function Layout({ children }) {
   return (
@@ -8,9 +9,7 @@ function Layout({ children }) {
       <main className="main-content" role="main">
         {children}
       </main>
-      <footer className="app-footer">
-        <p>Animal Learning App for Kids 🌟</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
