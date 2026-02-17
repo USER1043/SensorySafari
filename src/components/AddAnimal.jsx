@@ -1,29 +1,26 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AddAnimal.css'; 
+import './AddAnimal.css';
 
 function AddAnimal({ onAdd }) {
-  // CONCEPT: Controlled Components (Form State)
   const [formData, setFormData] = useState({
     name: '',
-    facts: '', 
-    image: '', 
-    sound: '', 
-    category: 'wild', 
+    facts: '',
+    category: 'wild',
     habitat: ''
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [soundFile, setSoundFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // CONCEPT: Refs
-  // We use useRef to focus the "Name" input automatically when page loads
   const nameInputRef = useRef(null);
   const navigate = useNavigate();
 
-  // CONCEPT: Lifecycle (useEffect)
   useEffect(() => {
-    nameInputRef.current.focus(); // Direct DOM manipulation using Ref
+    nameInputRef.current?.focus();
   }, []);
 
-  // CONCEPT: Event Handling (onChange)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -32,51 +29,64 @@ function AddAnimal({ onAdd }) {
     }));
   };
 
-  // CONCEPT: Handle the Audio File Upload
-  const handleAudioUpload = (e) => {
+  const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Magic Concept: Create a temporary URL for the uploaded file
-      const tempAudioUrl = URL.createObjectURL(file);
-      
-      setFormData(prev => ({
-        ...prev,
-        sound: tempAudioUrl 
-      }));
+      setImageFile(file);
+      setPreviewImage(URL.createObjectURL(file));
     }
   };
 
-  // CONCEPT: Event Handling (onSubmit)
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent page reload (Standard React Form concept)
-    
-    // Basic Validation
-    if (!formData.name || !formData.image || !formData.sound) {
-      alert("Please provide a name, image link, and sound link!");
+  const handleAudioUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSoundFile(file);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.name || !imageFile || !soundFile) {
+      alert("Please provide a name, image, and sound!");
       return;
     }
 
-    // Call the parent function
-    onAdd(formData);
-    
-    // Redirect back to gallery to see the new animal
-    navigate('/gallery');
+    setIsSubmitting(true);
+
+    try {
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('facts', formData.facts);
+      data.append('category', formData.category);
+      data.append('habitat', formData.habitat);
+      data.append('image', imageFile);
+      data.append('sound', soundFile);
+
+      await onAdd(data);
+      navigate('/gallery');
+    } catch (error) {
+      alert('Failed to add animal: ' + error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="add-animal-container">
       <h2>Add a New Friend 🦁</h2>
       <form onSubmit={handleSubmit} className="animal-form">
-        
+
         <div className="form-group">
           <label>Animal Name:</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             name="name"
-            value={formData.name} 
+            value={formData.name}
             onChange={handleChange}
-            ref={nameInputRef} // Attaching Ref here
+            ref={nameInputRef}
             placeholder="e.g. Giraffe"
+            required
           />
         </div>
 
@@ -92,10 +102,10 @@ function AddAnimal({ onAdd }) {
 
         <div className="form-group">
           <label>Habitat:</label>
-          <input 
-            type="text" 
+          <input
+            type="text"
             name="habitat"
-            value={formData.habitat} 
+            value={formData.habitat}
             onChange={handleChange}
             placeholder="e.g. Savannah"
           />
@@ -103,7 +113,7 @@ function AddAnimal({ onAdd }) {
 
         <div className="form-group">
           <label>Fun Fact:</label>
-          <textarea 
+          <textarea
             name="facts"
             value={formData.facts}
             onChange={handleChange}
@@ -112,26 +122,29 @@ function AddAnimal({ onAdd }) {
         </div>
 
         <div className="form-group">
-          <label>Image URL:</label>
-          <input 
-            type="text" 
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            placeholder="https://..."
+          <label>Image:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            required
           />
+          {previewImage && <img src={previewImage} alt="Preview" className="image-preview" style={{ maxWidth: '200px', marginTop: '10px' }} />}
         </div>
 
         <div className="form-group">
           <label>Animal Sound (MP3):</label>
-          <input 
-            type="file" 
-            accept="audio/*" // Only accept audio files
-            onChange={handleAudioUpload} 
+          <input
+            type="file"
+            accept="audio/*"
+            onChange={handleAudioUpload}
+            required
           />
         </div>
 
-        <button type="submit" className="submit-btn">Add Animal</button>
+        <button type="submit" className="submit-btn" disabled={isSubmitting}>
+          {isSubmitting ? 'Adding...' : 'Add Animal'}
+        </button>
       </form>
     </div>
   );

@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { animals, getRandomAnimals } from '../data/animals';
 import Confetti from './Confetti';
 import './Quiz.css';
 
-function Quiz() {
+function Quiz({ animals }) {
   const [currentAnimal, setCurrentAnimal] = useState(null);
   const [options, setOptions] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -23,17 +22,20 @@ function Quiz() {
   const generateQuestion = () => {
     // Stop any playing audio when new question loads
     stopAnimalSound();
-    
+
     // Get animals that haven't been used yet
     const availableAnimals = animals.filter(animal => !usedAnimalIds.includes(animal.id));
-    
+
     // If we've used all animals, reset (but keep score)
     if (availableAnimals.length < 4) {
       setUsedAnimalIds([]);
-      const randomAnimals = getRandomAnimals(4);
+      setUsedAnimalIds([]);
+      // Get 4 random animals
+      const shuffled = [...animals].sort(() => Math.random() - 0.5);
+      const randomAnimals = shuffled.slice(0, 4);
       const correctAnimal = randomAnimals[0];
       const shuffledOptions = [...randomAnimals].sort(() => Math.random() - 0.5);
-      
+
       setCurrentAnimal(correctAnimal);
       setOptions(shuffledOptions);
       setUsedAnimalIds([correctAnimal.id]);
@@ -42,13 +44,13 @@ function Quiz() {
       setIsCorrect(null);
       return;
     }
-    
+
     // Get 4 random animals from available ones
     const shuffled = [...availableAnimals].sort(() => Math.random() - 0.5);
     const randomAnimals = shuffled.slice(0, 4);
     const correctAnimal = randomAnimals[0];
     const shuffledOptions = [...randomAnimals].sort(() => Math.random() - 0.5);
-    
+
     setCurrentAnimal(correctAnimal);
     setOptions(shuffledOptions);
     setUsedAnimalIds(prev => [...prev, correctAnimal.id]);
@@ -77,15 +79,15 @@ function Quiz() {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-      
+
       oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 - gentle tone
-      
+
       gainNode.gain.setValueAtTime(0.15, audioContext.currentTime); // Much quieter
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-      
+
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.3);
     } catch (e) {
@@ -99,14 +101,14 @@ function Quiz() {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-      
+
       oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
       gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Very quiet
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-      
+
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.2);
     } catch (e) {
@@ -116,13 +118,13 @@ function Quiz() {
 
   const handleAnswerSelect = (option) => {
     if (showResult) return;
-    
+
     setSelectedAnswer(option);
     const correct = option.id === currentAnimal.id;
     setIsCorrect(correct);
     setShowResult(true);
     setTotalQuestions(totalQuestions + 1);
-    
+
     if (correct) {
       const newScore = score + 1;
       setScore(newScore);
@@ -165,12 +167,12 @@ function Quiz() {
     try {
       const audio = new Audio(animal.sound);
       audioRef.current = audio;
-      
+
       audio.onended = () => {
         setIsAudioPlaying(false);
         audioRef.current = null;
       };
-      
+
       audio.onerror = () => {
         console.log('Audio play error');
         setIsAudioPlaying(false);
@@ -182,7 +184,7 @@ function Quiz() {
           speechSynthesis.speak(utterance);
         }
       };
-      
+
       audio.play().then(() => {
         setIsAudioPlaying(true);
       }).catch(err => {
@@ -262,8 +264,8 @@ function Quiz() {
 
       <div className="quiz-progress">
         <div className="progress-bar">
-          <div 
-            className="progress-fill" 
+          <div
+            className="progress-fill"
             style={{ width: `${(totalQuestions / 10) * 100}%` }}
           ></div>
         </div>
@@ -285,8 +287,8 @@ function Quiz() {
         <>
           <div className="quiz-question">
             <div className="quiz-animal-image-container">
-              <img 
-                src={currentAnimal.image} 
+              <img
+                src={currentAnimal.image}
                 alt="What animal is this?"
                 className="quiz-animal-image"
                 onError={(e) => {
@@ -310,7 +312,7 @@ function Quiz() {
                 const isSelected = selectedAnswer && selectedAnswer.id === option.id;
                 const isCorrectOption = option.id === currentAnimal.id;
                 let buttonClass = 'quiz-option-button';
-                
+
                 if (showResult) {
                   if (isCorrectOption) {
                     buttonClass += ' correct';

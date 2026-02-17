@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { animals as allAnimals } from '../data/animals';
 import Confetti from './Confetti';
 import './MatchingGame.css';
 
-function MatchingGame() {
+function MatchingGame({ animals: allAnimals }) {
   const [animals, setAnimals] = useState([]);
   const [animalNames, setAnimalNames] = useState([]);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
@@ -19,7 +18,7 @@ function MatchingGame() {
     const shuffled = [...allAnimals].sort(() => Math.random() - 0.5);
     const gameAnimals = shuffled.slice(0, 6);
     const names = gameAnimals.map(a => a.name).sort(() => Math.random() - 0.5);
-    
+
     setAnimals(gameAnimals);
     setAnimalNames(names);
     setSelectedAnimal(null);
@@ -36,7 +35,7 @@ function MatchingGame() {
 
   const handleAnimalClick = (animal) => {
     if (matchedPairs.includes(animal.id)) return;
-    
+
     if (selectedAnimal === animal.id) {
       setSelectedAnimal(null);
     } else {
@@ -65,15 +64,15 @@ function MatchingGame() {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-      
+
       oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // Simple, gentle tone
-      
+
       gainNode.gain.setValueAtTime(0.12, audioContext.currentTime); // Very quiet
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-      
+
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.3);
     } catch (e) {
@@ -87,14 +86,14 @@ function MatchingGame() {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-      
+
       oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
       gainNode.gain.setValueAtTime(0.08, audioContext.currentTime); // Very quiet
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
-      
+
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.15);
     } catch (e) {
@@ -112,10 +111,10 @@ function MatchingGame() {
         // Subtle confetti for autism-friendly design
         setShowConfetti(true);
         setTimeout(() => setShowConfetti(false), 800); // Shorter duration
-        
+
         setMatchedPairs(prevMatchedPairs => {
           const newMatchedPairs = [...prevMatchedPairs, animalId];
-          
+
           // Check if game is complete using the new state
           setTimeout(() => {
             if (newMatchedPairs.length === animals.length) {
@@ -124,7 +123,7 @@ function MatchingGame() {
               setTimeout(() => setShowConfetti(false), 1500); // Shorter duration
             }
           }, 500);
-          
+
           return newMatchedPairs;
         });
         setScore(prevScore => prevScore + 10);
@@ -197,19 +196,16 @@ function MatchingGame() {
             {animals.map(animal => (
               <button
                 key={animal.id}
-                className={`animal-match-card ${
-                  isMatched(animal.id) ? 'matched' : ''
-                } ${
-                  isAnimalSelected(animal.id) ? 'selected' : ''
-                } ${
-                  lastMatchedId === animal.id ? 'just-matched' : ''
-                }`}
+                className={`animal-match-card ${isMatched(animal.id) ? 'matched' : ''
+                  } ${isAnimalSelected(animal.id) ? 'selected' : ''
+                  } ${lastMatchedId === animal.id ? 'just-matched' : ''
+                  }`}
                 onClick={() => handleAnimalClick(animal)}
                 disabled={isMatched(animal.id)}
                 aria-label={`Select ${animal.name}`}
               >
-                <img 
-                  src={animal.image} 
+                <img
+                  src={animal.image}
                   alt={animal.name}
                   onError={(e) => {
                     e.target.src = 'https://via.placeholder.com/200x200?text=' + animal.name;
@@ -229,11 +225,9 @@ function MatchingGame() {
             {animalNames.map((name, index) => (
               <button
                 key={`${name}-${index}`}
-                className={`name-button ${
-                  isNameMatched(name) ? 'matched' : ''
-                } ${
-                  isNameSelected(name) ? 'selected' : ''
-                }`}
+                className={`name-button ${isNameMatched(name) ? 'matched' : ''
+                  } ${isNameSelected(name) ? 'selected' : ''
+                  }`}
                 onClick={() => handleNameClick(name)}
                 disabled={isNameMatched(name)}
                 aria-label={`Select name ${name}`}
