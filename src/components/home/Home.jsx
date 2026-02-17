@@ -41,6 +41,16 @@ function Home() {
           </p>
           <div className="activity-button">Start Quiz →</div>
         </Link>
+
+        <Link to="/rule-validation" className="activity-card">
+          <div className="activity-icon">🔢</div>
+          <h2 className="activity-title">Rule Validation</h2>
+          <p className="activity-description">
+            Check if number patterns follow a rule. Spot the group that
+            doesn't belong!
+          </p>
+          <div className="activity-button">Play Game →</div>
+        </Link>
       </div>
 
       <div className="home-features">
@@ -60,7 +70,7 @@ function Home() {
           </div>
           <div className="feature-item">
             <span className="feature-icon">🌟</span>
-            <span className="feature-text">Track your progress</span>
+            <span className="feature-text">See progress bar in games</span>
           </div>
         </div>
       </div>
