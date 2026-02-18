@@ -112,6 +112,16 @@ function Navigation() {
               🐱 Add Animal
             </Link>
           </li>
+          <li>
+            <Link
+              to="/about"
+              className={`nav-link ${isActive("/about") ? "active" : ""}`}
+              aria-current={isActive("/about") ? "page" : undefined}
+              onClick={closeMenu}
+            >
+              ℹ️ About
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

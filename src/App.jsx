@@ -7,6 +7,7 @@ import MatchingGame from './components/games/MatchingGame';
 import Quiz from './components/games/Quiz';
 import RuleValidation from './components/games/RuleValidation';
 import AddAnimal from './components/animals/AddAnimal';
+import About from './components/about/About';
 import { fetchAnimals, createAnimal } from './services/api';
 import './App.css';
 
@@ -39,20 +40,17 @@ function App() {
     }
   };
 
-  if (loading) {
-    return <div className="loading">Loading Sensory Safari... 🦁</div>;
-  }
-
   return (
     <Router>
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/gallery" element={<AnimalGallery animals={animals} />} />
+          <Route path="/gallery" element={<AnimalGallery animals={animals} loading={loading} />} />
           <Route path="/add" element={<AddAnimal onAdd={handleAddAnimal} />} />
-          <Route path="/matching" element={<MatchingGame animals={animals} />} />
-          <Route path="/quiz" element={<Quiz animals={animals} />} />
+          <Route path="/matching" element={<MatchingGame animals={animals} loading={loading} />} />
+          <Route path="/quiz" element={<Quiz animals={animals} loading={loading} />} />
           <Route path="/rule-validation" element={<RuleValidation />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </Layout>
     </Router>

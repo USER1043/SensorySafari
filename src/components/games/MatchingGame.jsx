@@ -3,7 +3,7 @@ import Confetti from './Confetti';
 import GameStartScreen from './GameStartScreen';
 import './MatchingGame.css';
 
-function MatchingGame({ animals: allAnimals }) {
+function MatchingGame({ animals: allAnimals, loading }) {
   const [gameStarted, setGameStarted] = useState(false);
   const [animals, setAnimals] = useState([]);
   const [animalNames, setAnimalNames] = useState([]);
@@ -35,6 +35,21 @@ function MatchingGame({ animals: allAnimals }) {
     setGameStarted(true);
     startNewGame();
   };
+
+  if (loading && allAnimals.length === 0) {
+    return (
+      <GameStartScreen
+        icon="🎯"
+        title="Matching Game"
+        description="Loading animals... 🦁 Please wait a moment!"
+        features={[
+          { icon: '⏳', text: 'Getting everything ready for you...' },
+        ]}
+        onStart={() => { }}
+        buttonText="Loading..."
+      />
+    );
+  }
 
   if (!gameStarted) {
     return (

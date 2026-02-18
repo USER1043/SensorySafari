@@ -3,7 +3,7 @@ import Confetti from './Confetti';
 import GameStartScreen from './GameStartScreen';
 import './Quiz.css';
 
-function Quiz({ animals }) {
+function Quiz({ animals, loading }) {
   const [gameStarted, setGameStarted] = useState(false);
   const [currentAnimal, setCurrentAnimal] = useState(null);
   const [options, setOptions] = useState([]);
@@ -219,6 +219,21 @@ function Quiz({ animals }) {
       }
     };
   }, []);
+
+  if (loading && animals.length === 0) {
+    return (
+      <GameStartScreen
+        icon="❓"
+        title="Animal Quiz"
+        description="Loading animals... 🦁 Please wait a moment!"
+        features={[
+          { icon: '⏳', text: 'Getting everything ready for you...' },
+        ]}
+        onStart={() => { }}
+        buttonText="Loading..."
+      />
+    );
+  }
 
   if (!gameStarted) {
     return (
