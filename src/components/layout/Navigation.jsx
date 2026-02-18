@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Navigation.css";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.webp";
 
 function Navigation() {
   const location = useLocation();
