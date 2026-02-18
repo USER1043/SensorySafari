@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import Confetti from './Confetti';
+import GameStartScreen from './GameStartScreen';
 import './Quiz.css';
 
 function Quiz({ animals }) {
+  const [gameStarted, setGameStarted] = useState(false);
   const [currentAnimal, setCurrentAnimal] = useState(null);
   const [options, setOptions] = useState([]);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -69,9 +71,10 @@ function Quiz({ animals }) {
     generateQuestion();
   };
 
-  useEffect(() => {
+  const handleStart = () => {
+    setGameStarted(true);
     startQuiz();
-  }, []);
+  };
 
   const playSuccessSound = () => {
     // Gentle, calming success sound for autism-friendly design
@@ -216,6 +219,24 @@ function Quiz({ animals }) {
       }
     };
   }, []);
+
+  if (!gameStarted) {
+    return (
+      <GameStartScreen
+        icon="❓"
+        title="Animal Quiz"
+        description="Look at animal pictures and choose the correct name! Can you identify them all?"
+        features={[
+          { icon: '🖼️', text: 'Identify animals from photos' },
+          { icon: '🔊', text: 'Listen to animal sounds' },
+          { icon: '🔟', text: '10 questions per round' },
+          { icon: '🔥', text: 'Build a streak for bonus fun' },
+        ]}
+        onStart={handleStart}
+        buttonText="Start Quiz 🧠"
+      />
+    );
+  }
 
   if (quizComplete) {
     const percentage = Math.round((score / totalQuestions) * 100);

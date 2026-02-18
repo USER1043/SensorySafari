@@ -1,0 +1,183 @@
+/* ===== Game Start Screen — Autism-friendly ===== */
+
+.start-screen {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 20px;
+}
+
+.start-screen-card {
+  width: 100%;
+  background: white;
+  border-radius: 20px;
+  padding: 48px 40px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  border: 3px solid #e8ecf1;
+}
+
+/* Icon — gentle floating animation */
+.start-screen-icon {
+  font-size: 72px;
+  margin-bottom: 8px;
+  line-height: 1;
+  animation: start-float 3s ease-in-out infinite;
+}
+
+@keyframes start-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Title */
+.start-screen-title {
+  font-size: 38px;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Description */
+.start-screen-description {
+  font-size: 20px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  max-width: 480px;
+}
+
+/* Features list */
+.start-screen-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px 0;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.start-screen-feature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f5f7fa;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 18px;
+  color: #2c3e50;
+  font-weight: 500;
+  text-align: left;
+}
+
+.feature-bullet {
+  font-size: 24px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.feature-label {
+  flex: 1;
+}
+
+/* Start button — large & clear */
+.start-screen-button {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 20px 48px;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 64px;
+  width: 100%;
+  max-width: 360px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.start-screen-button:hover {
+  background: #357abd;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(74, 144, 226, 0.4);
+}
+
+.start-screen-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.start-screen-button:focus-visible {
+  outline: 3px solid #ffd700;
+  outline-offset: 3px;
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 768px) {
+  .start-screen {
+    min-height: 60vh;
+    padding: 16px;
+  }
+
+  .start-screen-card {
+    padding: 36px 24px;
+    border-radius: 16px;
+  }
+
+  .start-screen-icon {
+    font-size: 56px;
+  }
+
+  .start-screen-title {
+    font-size: 30px;
+  }
+
+  .start-screen-description {
+    font-size: 18px;
+  }
+
+  .start-screen-feature {
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+
+  .start-screen-button {
+    font-size: 20px;
+    padding: 18px 36px;
+    min-height: 56px;
+  }
+}
+
+/* ===== Reduced motion — autism-friendly ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .start-screen-icon {
+    animation: none;
+  }
+
+  .start-screen-button {
+    transition: none;
+  }
+
+  .start-screen-button:hover {
+    transform: none;
+  }
+}

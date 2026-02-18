@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Confetti from './Confetti';
+import GameStartScreen from './GameStartScreen';
 import './MatchingGame.css';
 
 function MatchingGame({ animals: allAnimals }) {
+  const [gameStarted, setGameStarted] = useState(false);
   const [animals, setAnimals] = useState([]);
   const [animalNames, setAnimalNames] = useState([]);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
@@ -29,9 +31,26 @@ function MatchingGame({ animals: allAnimals }) {
     setLastMatchedId(null);
   };
 
-  useEffect(() => {
+  const handleStart = () => {
+    setGameStarted(true);
     startNewGame();
-  }, []);
+  };
+
+  if (!gameStarted) {
+    return (
+      <GameStartScreen
+        icon="🎯"
+        title="Matching Game"
+        description="Test your knowledge by matching animal pictures with their names!"
+        features={[
+          { icon: '🖼️', text: 'Match 6 animal pictures' },
+          { icon: '📝', text: 'Click a picture, then its name' },
+          { icon: '⭐', text: 'Earn 10 points per match' },
+        ]}
+        onStart={handleStart}
+      />
+    );
+  }
 
   const handleAnimalClick = (animal) => {
     if (matchedPairs.includes(animal.id)) return;

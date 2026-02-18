@@ -134,32 +134,47 @@
   .home-title {
     font-size: 36px;
   }
-  
+
   .home-subtitle {
     font-size: 20px;
   }
-  
+
   .activities-grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  
+
   .activity-card {
     padding: 32px 24px;
     min-height: 300px;
   }
-  
+
   .activity-title {
     font-size: 28px;
   }
-  
+
   .activity-description {
     font-size: 18px;
   }
-  
+
   .features-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .feature-item {
+    flex-direction: row;
+    padding: 16px 20px;
     gap: 16px;
+  }
+
+  .feature-icon {
+    font-size: 36px;
+  }
+
+  .feature-text {
+    text-align: left;
+    font-size: 18px;
   }
 }
 
@@ -167,7 +182,7 @@
   .activity-card {
     transition: none;
   }
-  
+
   .activity-card:hover,
   .activity-card:focus {
     transform: none;

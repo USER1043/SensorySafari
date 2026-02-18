@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import GameStartScreen from './GameStartScreen';
 import './RuleValidation.css';
 
 /* ───────────────────────────────────────────
@@ -143,6 +144,7 @@ function getBallStyle(count) {
    ─────────────────────────────────────────── */
 
 function RuleValidation() {
+    const [gameStarted, setGameStarted] = useState(false);
     const [questions, setQuestions] = useState(() => generateQuestionSet(1));
     const [index, setIndex] = useState(0);
     const [level, setLevel] = useState(1);
@@ -261,6 +263,24 @@ function RuleValidation() {
 
 
     /* ---- Completion screen ---- */
+
+    if (!gameStarted) {
+        return (
+            <GameStartScreen
+                icon="🔢"
+                title="Rule Validation Game"
+                description="Check if number patterns follow a rule. Can you spot the group that doesn't belong?"
+                features={[
+                    { icon: '🔍', text: 'Examine number patterns' },
+                    { icon: '✅', text: 'Decide if they follow the rule' },
+                    { icon: '📈', text: 'Difficulty adapts to you' },
+                    { icon: '🔟', text: '10 questions per round' },
+                ]}
+                onStart={() => setGameStarted(true)}
+                buttonText="Start Game 🎯"
+            />
+        );
+    }
 
     if (gameComplete) {
         return (
