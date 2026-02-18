@@ -12,13 +12,19 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
       audioRef.current.pause();
       audioRef.current = null;
     }
-    
+
     // Create new audio object for the current animal
     try {
       const audioObj = new Audio(animal.sound);
       audioObj.onended = () => setIsPlaying(false);
       audioObj.onerror = () => {
-        // Handle missing audio files gracefully
+        setIsPlaying(false);
+        // Fallback to text-to-speech
+        if ('speechSynthesis' in window) {
+          const utterance = new SpeechSynthesisUtterance(animal.name);
+          utterance.rate = 0.8;
+          speechSynthesis.speak(utterance);
+        }
         console.log(`Audio file not found: ${animal.sound}`);
       };
       audioRef.current = audioObj;
@@ -26,7 +32,7 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
       console.log('Audio initialization error:', error);
       audioRef.current = null;
     }
-    
+
     // Cleanup function to pause and remove audio when component unmounts or animal changes
     return () => {
       if (audioRef.current) {
@@ -39,7 +45,7 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
 
   const handlePlaySound = (e) => {
     e.stopPropagation(); // Prevent card click if button is clicked
-    
+
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
@@ -72,7 +78,7 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
   };
 
   return (
-    <div 
+    <div
       className={`animal-card ${onClick ? 'clickable' : ''}`}
       onClick={handleCardClick}
       role={onClick ? 'button' : 'article'}
@@ -86,28 +92,24 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
       aria-label={onClick ? `Select ${animal.name}` : `${animal.name} card`}
     >
       <div className="animal-card-image-container">
-        <img 
-          src={animal.image} 
+        <img
+          src={animal.image}
           alt={animal.name}
           className="animal-card-image"
           loading="lazy"
-          onError={(e) => {
-            // Fallback to placeholder if image fails to load
-            e.target.src = 'https://via.placeholder.com/300x300?text=' + animal.name;
-          }}
         />
       </div>
-      
+
       <div className="animal-card-content">
         <h3 className="animal-card-name">{animal.name}</h3>
-        
+
         {showFacts && (
           <div className="animal-card-info">
             <p className="animal-card-habitat">📍 {animal.habitat}</p>
             <p className="animal-card-facts">{animal.facts}</p>
           </div>
         )}
-        
+
         <button
           className="animal-card-sound-button"
           onClick={handlePlaySound}

@@ -207,9 +207,6 @@ function MatchingGame({ animals: allAnimals }) {
                 <img
                   src={animal.image}
                   alt={animal.name}
-                  onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/200x200?text=' + animal.name;
-                  }}
                 />
                 {isMatched(animal.id) && (
                   <span className="match-check">✓</span>

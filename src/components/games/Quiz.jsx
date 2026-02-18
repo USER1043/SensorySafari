@@ -291,9 +291,6 @@ function Quiz({ animals }) {
                 src={currentAnimal.image}
                 alt="What animal is this?"
                 className="quiz-animal-image"
-                onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/400x400?text=Animal';
-                }}
               />
               <div className="audio-controls">
                 <button
