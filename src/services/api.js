@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL + "/api";
 
 export const fetchAnimals = async () => {
     try {
@@ -13,11 +13,11 @@ export const fetchAnimals = async () => {
         // Backend provides: _id, name, category, image: { url, ... }, audio: { url, ... }, facts, habitat
 
         return data.map(animal => ({
-            id: animal._id, // Use MongoDB _id as the unique ID
+            id: animal._id,
             name: animal.name,
             category: animal.category,
             image: animal.image?.url || '',
-            sound: animal.audio?.url || '', // Frontend uses 'sound', backend has 'audio' object
+            sound: animal.audio?.url || '',
             facts: animal.facts || animal.description || '',
             habitat: animal.habitat || '',
         }));

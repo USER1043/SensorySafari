@@ -1,19 +1,19 @@
-# 🦁 Sensory Safari - Animal Learning App
+# Sensory Safari - Animal Learning App
 
 An interactive and accessible animal learning web application designed with autism-friendly features. Learn about amazing animals through fun activities including an animal gallery, matching games, and quizzes!
 
 ---
 
-## ✨ Features
+## Features
 
-### 🎨 Interactive Animal Gallery
+### Interactive Animal Gallery
 
 - Browse through a collection of **33 different animals**
 - Filter animals by category: **Farm Animals**, **Wild Animals**, **Birds**, and **Insects**
 - Click on any animal to see high-quality images and learn fun facts
 - Listen to authentic animal sounds
 
-### 🎯 Matching Game
+### Matching Game
 
 - Test your knowledge by matching animal pictures with their names
 - Earn points for each correct match (10 points per pair)
@@ -21,7 +21,7 @@ An interactive and accessible animal learning web application designed with auti
 - Subtle confetti celebrations for autism-friendly engagement
 - New game button to shuffle and play again
 
-### ❓ Animal Quiz
+### Animal Quiz
 
 - 10-question quiz to test your animal knowledge
 - See your score and track your progress
@@ -30,7 +30,7 @@ An interactive and accessible animal learning web application designed with auti
 - Get immediate feedback with fun facts after each answer
 - Play again to keep improving
 
-### ♿ Accessibility Features
+### Accessibility Features
 
 - **Autism-friendly design**: Gentle colors, no jarring animations
 - **Large touch targets**: Minimum 44px touch areas for easy interaction
@@ -42,7 +42,7 @@ An interactive and accessible animal learning web application designed with auti
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Technology       | Purpose                                              |
 | ---------------- | ---------------------------------------------------- |
@@ -54,7 +54,7 @@ An interactive and accessible animal learning web application designed with auti
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -95,7 +95,7 @@ The built files will be in the `dist/` directory.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 animal-learning-app/
@@ -136,7 +136,7 @@ animal-learning-app/
 
 ---
 
-## 🐾 Animals Included
+## Animals Included
 
 ### 🐦 Birds (12 species)
 
@@ -158,17 +158,17 @@ Grasshopper, Cricket, Mosquito, Bee
 
 ---
 
-## 📱 Responsive Design
+## Responsive Design
 
 The app is fully responsive and works great on:
 
-- 📱 Mobile devices (320px+)
-- 📲 Tablets
-- 🖥️ Desktop computers
+- Mobile devices (320px+)
+- Tablets
+- Desktop computers
 
 ---
 
-## 🎨 Design Philosophy
+## Design Philosophy
 
 This app was designed with **autism-friendly principles** in mind:
 
@@ -181,19 +181,19 @@ This app was designed with **autism-friendly principles** in mind:
 
 ---
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## 📧 Contact
+## Contact
 
 For questions or suggestions, please open an issue in the repository.
 
