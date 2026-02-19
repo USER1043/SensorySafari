@@ -64,6 +64,22 @@ function applyOp(n, op, value) {
 }
 
 /* ───────────────────────────────────────────
+   Interest-based themes
+   ─────────────────────────────────────────── */
+
+const THEMES = {
+    default: { label: 'Balls', icon: '🔵', emojis: null },
+    animals: { label: 'Animals', icon: '🐶', emojis: ['🐶', '🐱', '🐰', '🐻', '🐼'] },
+    cars: { label: 'Cars', icon: '🚗', emojis: ['🚗', '🏎️', '🚙', '🛻', '🚕'] },
+    space: { label: 'Space', icon: '⭐', emojis: ['⭐', '🪐', '🚀', '🌙', '☄️'] },
+};
+
+/* Emoji icons need slightly larger sizes to stay legible */
+function getThemedSize(size) {
+    return Math.max(size + 2, 10);
+}
+
+/* ───────────────────────────────────────────
    Question generator
    ─────────────────────────────────────────── */
 
@@ -145,6 +161,7 @@ function getBallStyle(count) {
 
 function RuleValidation() {
     const [gameStarted, setGameStarted] = useState(false);
+    const [theme, setTheme] = useState('default');
     const [questions, setQuestions] = useState(() => generateQuestionSet(1));
     const [index, setIndex] = useState(0);
     const [level, setLevel] = useState(1);
@@ -327,6 +344,22 @@ function RuleValidation() {
                 Does this sequence follow the rule?
             </p>
 
+            {/* Theme Selector */}
+            <div className="rv-theme-selector" role="radiogroup" aria-label="Choose a theme">
+                {Object.entries(THEMES).map(([key, t]) => (
+                    <button
+                        key={key}
+                        className={`rv-theme-btn${theme === key ? ' active' : ''}`}
+                        onClick={() => setTheme(key)}
+                        aria-pressed={theme === key}
+                        aria-label={`${t.label} theme`}
+                    >
+                        <span className="rv-theme-btn-icon">{t.icon}</span>
+                        <span className="rv-theme-btn-label">{t.label}</span>
+                    </button>
+                ))}
+            </div>
+
             {/* Progress */}
             <div className="rv-progress">
                 <div className="rv-progress-bar">
@@ -357,7 +390,10 @@ function RuleValidation() {
                     {current.sequence.map((count, i) => {
                         const { size, cols } = getBallStyle(count);
                         const isWrong = showWrongGroup && i === current.wrongIndex;
-                        const groupWidth = cols * (size + 4) + 20; // balls + gap + padding
+                        const activeTheme = THEMES[theme];
+                        const isEmoji = activeTheme.emojis !== null;
+                        const renderSize = isEmoji ? getThemedSize(size) : size;
+                        const groupWidth = cols * (renderSize + 4) + 20;
                         return (
                             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 {i > 0 && <span className="rv-arrow">→</span>}
@@ -367,11 +403,22 @@ function RuleValidation() {
                                     aria-label={`Group of ${count}`}
                                 >
                                     {Array.from({ length: count }, (_, b) => (
-                                        <div
-                                            key={b}
-                                            className="rv-ball"
-                                            style={{ width: `${size}px`, height: `${size}px` }}
-                                        />
+                                        isEmoji ? (
+                                            <span
+                                                key={b}
+                                                className="rv-icon"
+                                                style={{ fontSize: `${renderSize}px` }}
+                                                aria-hidden="true"
+                                            >
+                                                {activeTheme.emojis[b % activeTheme.emojis.length]}
+                                            </span>
+                                        ) : (
+                                            <div
+                                                key={b}
+                                                className="rv-ball"
+                                                style={{ width: `${renderSize}px`, height: `${renderSize}px` }}
+                                            />
+                                        )
                                     ))}
                                 </div>
                             </div>

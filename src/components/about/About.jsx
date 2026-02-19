@@ -115,11 +115,11 @@ function About() {
 
                     <div className="course-code-badge">
                         <div className="course-code-label">Course Code</div>
-                        <div className="course-code-value">23CSE313</div>
+                        <div className="course-code-value">23CSE461</div>
                     </div>
 
                     <div className="professor-name">Dr. T. Senthil Kumar</div>
-                    <div className="professor-title">Associate Professor</div>
+                    <div className="professor-title">Professor</div>
                     <address className="professor-address">
                         Amrita School of Computing
                         <br />
