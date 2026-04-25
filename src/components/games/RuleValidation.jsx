@@ -1,5 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { ScreenCapture } from 'react-screen-capture';
+import html2canvas from 'html2canvas';
 import GameStartScreen from './GameStartScreen';
 import './RuleValidation.css';
 
@@ -172,8 +174,10 @@ function RuleValidation() {
     const [showFeedback, setShowFeedback] = useState(false);
     const [selectedAnswer, setSelectedAnswer] = useState(null); // 'correct' | 'wrong'
     const [gameComplete, setGameComplete] = useState(false);
+    const [screenshot, setScreenshot] = useState(null);
 
     const feedbackRef = useRef(null);
+    const completeRef = useRef(null);
 
     // Scroll to feedback when it appears
     useEffect(() => {
@@ -181,6 +185,20 @@ function RuleValidation() {
             feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }, [showFeedback]);
+
+    // Keyboard shortcuts: C for Correct, W for Wrong
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!gameStarted || gameComplete || showFeedback) return;
+            if (e.key === 'c' || e.key === 'C') {
+                handleAnswer('correct');
+            } else if (e.key === 'w' || e.key === 'W') {
+                handleAnswer('wrong');
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    });
 
 
     const current = questions[index];
@@ -277,6 +295,24 @@ function RuleValidation() {
         setGameComplete(false);
     };
 
+    const handleSaveScore = async () => {
+        if (!completeRef.current) return;
+        // Scroll the score card into view
+        completeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Wait for scroll to finish before capturing
+        await new Promise((r) => setTimeout(r, 500));
+        try {
+            const canvas = await html2canvas(completeRef.current, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                useCORS: true,
+            });
+            setScreenshot(canvas.toDataURL('image/png'));
+        } catch (err) {
+            console.error('Screenshot failed:', err);
+        }
+    };
+
 
 
     /* ---- Completion screen ---- */
@@ -302,7 +338,7 @@ function RuleValidation() {
     if (gameComplete) {
         return (
             <div className="rv-container">
-                <div className="rv-complete">
+                <div className="rv-complete" ref={completeRef}>
                     <div className="rv-complete-star">⭐</div>
                     <h1 className="rv-complete-title">Great Work!</h1>
                     <p className="rv-complete-subtitle">
@@ -315,11 +351,43 @@ function RuleValidation() {
                         <button className="rv-play-again-btn" onClick={handlePlayAgain}>
                             🔄 Play Again
                         </button>
+                        <button className="rv-screenshot-btn" onClick={handleSaveScore}>
+                            📸 Save My Score
+                        </button>
                         <Link to="/" className="rv-home-link">
                             🏠 Back to Home
                         </Link>
                     </div>
                 </div>
+
+                {/* Screenshot Preview Modal */}
+                {screenshot && (
+                    <div className="rv-modal-overlay" onClick={() => setScreenshot(null)}>
+                        <div className="rv-modal" onClick={(e) => e.stopPropagation()}>
+                            <h2 className="rv-modal-title">Your Score Card 🎉</h2>
+                            <img
+                                src={screenshot}
+                                alt="Your game score"
+                                className="rv-modal-image"
+                            />
+                            <div className="rv-modal-actions">
+                                <a
+                                    href={screenshot}
+                                    download="my-score.png"
+                                    className="rv-modal-download"
+                                >
+                                    💾 Download
+                                </a>
+                                <button
+                                    className="rv-modal-close"
+                                    onClick={() => setScreenshot(null)}
+                                >
+                                    ✕ Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
@@ -453,6 +521,11 @@ function RuleValidation() {
                         ❌ Wrong
                     </button>
                 </div>
+
+                {/* Keyboard shortcut hint */}
+                {!showFeedback && (
+                    <p className="rv-keyboard-hint">Press <kbd>C</kbd> for Correct, <kbd>W</kbd> for Wrong</p>
+                )}
 
                 {/* Feedback */}
                 {showFeedback && (

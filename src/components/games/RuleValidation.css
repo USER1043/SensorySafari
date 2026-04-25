@@ -447,6 +447,128 @@
   user-select: none;
 }
 
+/* --- Keyboard hint --- */
+
+.rv-keyboard-hint {
+  text-align: center;
+  font-size: 14px;
+  color: #7f8c8d;
+  margin: 8px 0 0;
+}
+
+.rv-keyboard-hint kbd {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2c3e50;
+  background: #f1f3f5;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-shadow: 0 1px 0 #c4c9cf;
+  font-family: inherit;
+}
+
+/* --- Screenshot button --- */
+
+.rv-screenshot-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 28px;
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+  min-height: 56px;
+}
+
+.rv-screenshot-btn:hover {
+  background: linear-gradient(135deg, #219a52, #27ae60);
+}
+
+/* --- Screenshot preview modal --- */
+
+.rv-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.rv-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.rv-modal-title {
+  text-align: center;
+  font-size: 24px;
+  color: #2c3e50;
+  margin: 0 0 16px;
+}
+
+.rv-modal-image {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.rv-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.rv-modal-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  color: white;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.rv-modal-download:hover {
+  background: linear-gradient(135deg, #357abd, #2c6aa0);
+}
+
+.rv-modal-close {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  background: white;
+  color: #555;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.rv-modal-close:hover {
+  border-color: #b0b0b0;
+  background: #f5f5f5;
+}
+
 /* --- Responsive --- */
 
 @media (max-width: 768px) {
