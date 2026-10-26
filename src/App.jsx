@@ -35,14 +35,10 @@ function App() {
   }, []);
 
   // Function to update the animals list.
-  const handleAddAnimal = async (animalData) => {
-    try {
-      const newAnimal = await createAnimal(animalData);
-      setAnimals([...animals, newAnimal]);
-    } catch (error) {
-      console.error("Failed to create animal", error);
-      alert("Failed to create animal. Check console for details.");
-    }
+  // Errors propagate so AddAnimal can show them and stay on the form.
+  const handleAddAnimal = async (formData, adminPassword) => {
+    const newAnimal = await createAnimal(formData, adminPassword);
+    setAnimals(prev => [...prev, newAnimal]);
   };
 
   return (

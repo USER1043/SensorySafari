@@ -75,20 +75,19 @@ export const fetchAnimals = async () => {
     }
 };
 
-export const createAnimal = async (animalData) => {
+export const createAnimal = async (formData, adminPassword) => {
     try {
-        const isFormData = animalData instanceof FormData;
-        const headers = isFormData ? {} : { 'Content-Type': 'application/json' };
-
         const response = await fetch(`${API_URL}/animals`, {
             method: 'POST',
-            headers: headers,
-            body: isFormData ? animalData : JSON.stringify(animalData),
+            headers: { Authorization: `Bearer ${adminPassword}` },
+            body: formData,
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to create animal');
+            const errorData = await response.json().catch(() => ({}));
+            const error = new Error(errorData.message || `Failed to create animal (${response.status})`);
+            error.status = response.status;
+            throw error;
         }
 
         const newAnimal = await response.json();

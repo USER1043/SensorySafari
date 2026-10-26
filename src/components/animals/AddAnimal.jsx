@@ -2,6 +2,10 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddAnimal.css';
 
+// Mirrors the backend limits so oversized files fail fast instead of after uploading.
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const MAX_AUDIO_BYTES = 10 * 1024 * 1024;
+
 function AddAnimal({ onAdd }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,6 +17,7 @@ function AddAnimal({ onAdd }) {
   const [soundFile, setSoundFile] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
 
   const nameInputRef = useRef(null);
   const navigate = useNavigate();
@@ -51,6 +56,18 @@ function AddAnimal({ onAdd }) {
       alert("Please provide a name, image, and sound!");
       return;
     }
+    if (!adminPassword) {
+      alert("Please enter the admin password.");
+      return;
+    }
+    if (imageFile.size > MAX_IMAGE_BYTES) {
+      alert("The image is too large. Please use one that is 5 MB or smaller.");
+      return;
+    }
+    if (soundFile.size > MAX_AUDIO_BYTES) {
+      alert("The sound file is too large. Please use one that is 10 MB or smaller.");
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -63,7 +80,7 @@ function AddAnimal({ onAdd }) {
       data.append('image', imageFile);
       data.append('sound', soundFile);
 
-      await onAdd(data);
+      await onAdd(data, adminPassword);
       navigate('/gallery');
     } catch (error) {
       alert('Failed to add animal: ' + error.message);
@@ -138,6 +155,18 @@ function AddAnimal({ onAdd }) {
             type="file"
             accept="audio/*"
             onChange={handleAudioUpload}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="admin-password">Admin Password:</label>
+          <input
+            id="admin-password"
+            type="password"
+            value={adminPassword}
+            onChange={(e) => setAdminPassword(e.target.value)}
+            autoComplete="current-password"
             required
           />
         </div>
