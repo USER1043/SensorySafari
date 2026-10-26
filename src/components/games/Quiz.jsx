@@ -3,7 +3,7 @@ import Confetti from './Confetti';
 import GameStartScreen from './GameStartScreen';
 import './Quiz.css';
 
-function Quiz({ animals, loading }) {
+function Quiz({ animals, loading, loadingMessage }) {
   const [gameStarted, setGameStarted] = useState(false);
   const [currentAnimal, setCurrentAnimal] = useState(null);
   const [options, setOptions] = useState([]);
@@ -225,7 +225,7 @@ function Quiz({ animals, loading }) {
       <GameStartScreen
         icon="❓"
         title="Animal Quiz"
-        description="Loading animals... 🦁 Please wait a moment!"
+        description={loadingMessage}
         features={[
           { icon: '⏳', text: 'Getting everything ready for you...' },
         ]}

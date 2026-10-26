@@ -23,7 +23,8 @@ const describeFetchFailure = async (url, err, response) => {
 
 // Retries only on proxy/backend-not-ready statuses. Used for reads, not uploads: a
 // timed-out upload may still have been saved, so retrying it could add a duplicate.
-const fetchWithWakeRetry = async (url) => {
+// onRetry is called before each wait so the UI can tell the user why loading is slow.
+const fetchWithWakeRetry = async (url, onRetry) => {
     for (let attempt = 0; ; attempt++) {
         const response = await fetch(url);
         const delay = RETRY_DELAYS_MS[attempt];
@@ -31,15 +32,16 @@ const fetchWithWakeRetry = async (url) => {
             return response;
         }
         console.warn(`[api] ${url} returned ${response.status}; the backend may be waking up. Retrying in ${delay / 1000}s`);
+        onRetry?.({ attempt: attempt + 1, status: response.status, delayMs: delay });
         await new Promise(resolve => setTimeout(resolve, delay));
     }
 };
 
-export const fetchAnimals = async () => {
+export const fetchAnimals = async ({ onRetry } = {}) => {
     const url = `${API_URL}/animals`;
     let response;
     try {
-        response = await fetchWithWakeRetry(url);
+        response = await fetchWithWakeRetry(url, onRetry);
     } catch (err) {
         const message = await describeFetchFailure(url, err);
         console.error('[api]', message);

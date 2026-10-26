@@ -3,7 +3,7 @@ import Confetti from './Confetti';
 import GameStartScreen from './GameStartScreen';
 import './MatchingGame.css';
 
-function MatchingGame({ animals: allAnimals, loading }) {
+function MatchingGame({ animals: allAnimals, loading, loadingMessage }) {
   const [gameStarted, setGameStarted] = useState(false);
   const [animals, setAnimals] = useState([]);
   const [animalNames, setAnimalNames] = useState([]);
@@ -41,7 +41,7 @@ function MatchingGame({ animals: allAnimals, loading }) {
       <GameStartScreen
         icon="🎯"
         title="Matching Game"
-        description="Loading animals... 🦁 Please wait a moment!"
+        description={loadingMessage}
         features={[
           { icon: '⏳', text: 'Getting everything ready for you...' },
         ]}
