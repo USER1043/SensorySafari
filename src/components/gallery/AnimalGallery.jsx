@@ -3,7 +3,7 @@ import AnimalCard from './AnimalCard';
 // Removed static animals import
 import './AnimalGallery.css';
 
-function AnimalGallery({ animals, loading }) {
+function AnimalGallery({ animals, loading, loadingMessage }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const categories = ['all', 'farm', 'wild', 'birds', 'insects'];
 
@@ -15,7 +15,7 @@ function AnimalGallery({ animals, loading }) {
     return (
       <div className="animal-gallery">
         <h1 className="gallery-title">Animal Gallery</h1>
-        <p className="gallery-subtitle">Loading animals... 🦁 Please wait a moment!</p>
+        <p className="gallery-subtitle" role="status">{loadingMessage}</p>
       </div>
     );
   }

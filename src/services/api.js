@@ -1,31 +1,47 @@
-const API_BASE = import.meta.env.VITE_API_URL;
-const API_URL = API_BASE + "/api";
+// Requests go to /api on the site's own origin. vercel.json (production) and the Vite
+// dev/preview server (vite.config.js) forward them to the backend, so the browser never
+// makes a cross-origin request and CORS doesn't apply.
+const API_URL = "/api";
 
-// VITE_API_URL is baked in at build time, so a missing value on the host's build env
-// produces requests to "undefined/api/..." instead of the backend.
-if (!API_BASE) {
-    console.error('[api] VITE_API_URL is not set at build time. Requests will go to', API_URL);
-} else {
-    console.info('[api] Using backend:', API_URL);
-}
+// Vercel gives up on a proxied request after 30s, and a sleeping Render instance can take
+// longer than that to wake. These statuses mean the proxy or backend wasn't ready yet.
+const RETRYABLE_STATUSES = [502, 503, 504];
+const RETRY_DELAYS_MS = [3000, 10000];
 
 // Turns the various ways the request can fail into one readable message.
 const describeFetchFailure = async (url, err, response) => {
     if (err) {
-        // fetch() only rejects on network-level failures: backend down/asleep, wrong URL,
-        // CORS rejection, or mixed content (https page calling an http API).
-        return `Could not reach the backend at ${url}. It may be offline or asleep, the URL may be wrong, ` +
-            `or the request was blocked by CORS (check FRONTEND_URL on the backend). Original error: ${err.message}`;
+        // fetch() only rejects on network-level failures, e.g. the device is offline.
+        return `Could not reach ${url}. Check your internet connection. Original error: ${err.message}`;
+    }
+    if (RETRYABLE_STATUSES.includes(response.status)) {
+        return `The backend did not respond in time (${response.status}) for ${url}. It may still be waking up; try again in a minute.`;
     }
     const body = await response.text().catch(() => '');
     return `Backend responded ${response.status} ${response.statusText} for ${url}: ${body.slice(0, 200)}`;
 };
 
-export const fetchAnimals = async () => {
+// Retries only on proxy/backend-not-ready statuses. Used for reads, not uploads: a
+// timed-out upload may still have been saved, so retrying it could add a duplicate.
+// onRetry is called before each wait so the UI can tell the user why loading is slow.
+const fetchWithWakeRetry = async (url, onRetry) => {
+    for (let attempt = 0; ; attempt++) {
+        const response = await fetch(url);
+        const delay = RETRY_DELAYS_MS[attempt];
+        if (!RETRYABLE_STATUSES.includes(response.status) || delay === undefined) {
+            return response;
+        }
+        console.warn(`[api] ${url} returned ${response.status}; the backend may be waking up. Retrying in ${delay / 1000}s`);
+        onRetry?.({ attempt: attempt + 1, status: response.status, delayMs: delay });
+        await new Promise(resolve => setTimeout(resolve, delay));
+    }
+};
+
+export const fetchAnimals = async ({ onRetry } = {}) => {
     const url = `${API_URL}/animals`;
     let response;
     try {
-        response = await fetch(url);
+        response = await fetchWithWakeRetry(url, onRetry);
     } catch (err) {
         const message = await describeFetchFailure(url, err);
         console.error('[api]', message);
@@ -40,8 +56,8 @@ export const fetchAnimals = async () => {
 
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('application/json')) {
-        // Usually means VITE_API_URL points at the frontend host, which serves index.html.
-        const message = `Expected JSON from ${url} but got "${contentType}". VITE_API_URL probably points at the wrong host.`;
+        // The /api request fell through to the app's index.html instead of being proxied.
+        const message = `Expected JSON from ${url} but got "${contentType}". The /api proxy (vercel.json in production, vite.config.js locally) is probably missing.`;
         console.error('[api]', message);
         throw new Error(message);
     }
