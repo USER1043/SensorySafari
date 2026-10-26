@@ -8,12 +8,12 @@
 }
 
 .nav-container {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 12px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
   position: relative;
 }
 
@@ -22,18 +22,22 @@
   font-weight: bold;
   color: white;
   text-decoration: none;
-  padding: 14px 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 8px;
 }
 
-.nav-logo:hover,
-.nav-logo:focus {
+.nav-logo:hover {
   color: #4a90e2;
-  outline: 2px solid #4a90e2;
+}
+
+/* Outline only for keyboard focus, so a mouse click doesn't leave a box around the logo */
+.nav-logo:focus-visible {
+  outline: 3px solid #ffd700;
   outline-offset: 4px;
-  border-radius: 4px;
 }
 
 .hamburger-button {
@@ -85,7 +89,8 @@
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
   flex-wrap: nowrap;
 }
 
@@ -95,25 +100,24 @@
 
 .nav-link {
   display: flex;
-  padding: 20px 14px;
+  padding: 10px 16px;
   color: white;
   text-decoration: none;
   font-size: 18px;
   font-weight: 500;
-  border-radius: 8px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  min-height: 60px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+  min-height: 44px;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   white-space: nowrap;
 }
 
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #4a90e2;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-.nav-link:focus {
+.nav-link:focus-visible {
   outline: 3px solid #ffd700;
   outline-offset: 2px;
 }
@@ -123,14 +127,24 @@
   color: white;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1359px) {
   .nav-container {
-    padding: 0 16px;
+    padding: 12px 20px;
   }
 
-  .nav-logo {
-    padding: 16px 0;
-    font-size: 22px;
+  .nav-menu {
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 10px 12px;
+  }
+}
+
+/* Below this width the seven links no longer fit beside the logo */
+@media (max-width: 1199px) {
+  .nav-container {
+    padding: 10px 16px;
   }
 
   .hamburger-button {
@@ -144,6 +158,7 @@
     right: 0;
     background: #2c3e50;
     flex-direction: column;
+    align-items: stretch;
     gap: 0;
     width: 100%;
     max-height: 0;
@@ -153,7 +168,7 @@
   }
 
   .nav-menu.nav-menu-open {
-    max-height: 400px;
+    max-height: 600px;
   }
 
   .nav-menu li {
