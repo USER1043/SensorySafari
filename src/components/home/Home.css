@@ -25,7 +25,8 @@
 
 .activities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Fixed 2x2 so the four activities never leave one card alone on a row */
+  grid-template-columns: repeat(2, 1fr);
   gap: 32px;
   margin-bottom: 60px;
 }
