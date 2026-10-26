@@ -1,6 +1,36 @@
 import { Link } from "react-router-dom";
 import "./About.css";
 
+// Attribution for Creative Commons media used in the app (title, author, source, license, changes).
+const mediaCredits = [
+    {
+        animal: "Cow",
+        type: "Photo",
+        title: "Milchkuh auf Weide in NRW",
+        author: "Angela Marie",
+        source: "https://commons.wikimedia.org/wiki/File:Milchkuh_auf_Weide_in_NRW.jpg",
+        license: "CC BY 2.0",
+        licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
+        changes: "Resized to 1280px wide",
+    },
+    {
+        animal: "Cow",
+        type: "Sound",
+        title: "Single Cow Moo",
+        author: "MichaeltheFox8621",
+        source: "https://commons.wikimedia.org/wiki/File:Single_Cow_Moo.ogg",
+        license: "CC BY-SA 4.0",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+        changes: "Converted from OGG to MP3",
+    },
+];
+
+// Every animal sound except the cow is an unmodified download from this site.
+const soundLibraryCredit = {
+    name: "FreeAnimalSounds",
+    url: "https://freeanimalsounds.org/",
+};
+
 function About() {
     return (
         <div className="about-container">
@@ -134,6 +164,40 @@ function About() {
                     >
                         ✉️ t_senthilkumar@cb.amrita.edu
                     </a>
+                </div>
+
+                {/* Media Credits Card */}
+                <div className="about-card credits-card">
+                    <div className="about-section-header">
+                        <div className="about-section-icon">📸</div>
+                        <h2 className="about-section-title">Media Credits</h2>
+                    </div>
+
+                    <ul className="credits-list">
+                        <li className="credit-item">
+                            <span className="credit-label">Animal sounds</span>
+                            All animal sounds except the cow are from{" "}
+                            <a href={soundLibraryCredit.url} target="_blank" rel="noopener noreferrer">
+                                {soundLibraryCredit.name}
+                            </a>{" "}
+                            (freeanimalsounds.org), a free animal sound library.
+                        </li>
+                        {mediaCredits.map((credit) => (
+                            <li key={credit.source} className="credit-item">
+                                <span className="credit-label">
+                                    {credit.animal} {credit.type.toLowerCase()}
+                                </span>
+                                <a href={credit.source} target="_blank" rel="noopener noreferrer">
+                                    &ldquo;{credit.title}&rdquo;
+                                </a>{" "}
+                                by {credit.author}, licensed under{" "}
+                                <a href={credit.licenseUrl} target="_blank" rel="noopener noreferrer">
+                                    {credit.license}
+                                </a>
+                                , via Wikimedia Commons. {credit.changes}.
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </div>
