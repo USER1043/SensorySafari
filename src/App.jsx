@@ -14,35 +14,45 @@ import './App.css';
 function App() {
   const [animals, setAnimals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+
+  const loadAnimals = async () => {
+    setLoading(true);
+    setLoadError(null);
+    try {
+      const data = await fetchAnimals();
+      setAnimals(data);
+    } catch (error) {
+      console.error("Failed to load animals", error);
+      setLoadError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadAnimals = async () => {
-      try {
-        const data = await fetchAnimals();
-        setAnimals(data);
-      } catch (error) {
-        console.error("Failed to load animals", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     loadAnimals();
   }, []);
 
   // Function to update the animals list.
-  const handleAddAnimal = async (animalData) => {
-    try {
-      const newAnimal = await createAnimal(animalData);
-      setAnimals([...animals, newAnimal]);
-    } catch (error) {
-      console.error("Failed to create animal", error);
-      alert("Failed to create animal. Check console for details.");
-    }
+  // Errors propagate so AddAnimal can show them and stay on the form.
+  const handleAddAnimal = async (formData, adminPassword) => {
+    const newAnimal = await createAnimal(formData, adminPassword);
+    setAnimals(prev => [...prev, newAnimal]);
   };
 
   return (
     <Router>
       <Layout>
+        {loadError && (
+          <div className="load-error" role="alert">
+            <strong>Couldn't load animals.</strong>
+            <p>{loadError}</p>
+            <button onClick={loadAnimals} disabled={loading}>
+              {loading ? 'Retrying...' : 'Try again'}
+            </button>
+          </div>
+        )}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/gallery" element={<AnimalGallery animals={animals} loading={loading} />} />

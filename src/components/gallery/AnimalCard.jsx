@@ -1,9 +1,30 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './AnimalCard.css';
+
+// Only one card plays at a time: this holds the stop function of the card that is
+// currently playing, so starting another card silences it first.
+let stopActiveCard = null;
 
 function AnimalCard({ animal, showFacts = false, onClick }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
+
+  const stopPlayback = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+    }
+    setIsPlaying(false);
+  }, []);
+
+  const releaseActive = useCallback(() => {
+    if (stopActiveCard === stopPlayback) {
+      stopActiveCard = null;
+    }
+  }, [stopPlayback]);
 
   // Update audio object when animal prop changes
   useEffect(() => {
@@ -16,16 +37,21 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
     // Create new audio object for the current animal
     try {
       const audioObj = new Audio(animal.sound);
-      audioObj.onended = () => setIsPlaying(false);
+      audioObj.onended = () => {
+        setIsPlaying(false);
+        releaseActive();
+      };
       audioObj.onerror = () => {
         setIsPlaying(false);
+        releaseActive();
         // Fallback to text-to-speech
         if ('speechSynthesis' in window) {
           const utterance = new SpeechSynthesisUtterance(animal.name);
           utterance.rate = 0.8;
           speechSynthesis.speak(utterance);
         }
-        console.log(`Audio file not found: ${animal.sound}`);
+        // MediaError codes: 2 = network, 3 = decode, 4 = not found / unsupported
+        console.warn(`[asset] Audio failed to load for ${animal.name} (MediaError ${audioObj.error?.code}): ${animal.sound || '(empty URL)'}`);
       };
       audioRef.current = audioObj;
     } catch (error) {
@@ -40,34 +66,43 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
         audioRef.current = null;
       }
       setIsPlaying(false);
+      releaseActive();
     };
-  }, [animal.sound]);
+  }, [animal.sound, releaseActive]);
 
   const handlePlaySound = (e) => {
     e.stopPropagation(); // Prevent card click if button is clicked
 
+    if (isPlaying) {
+      stopPlayback();
+      releaseActive();
+      return;
+    }
+
+    // Silence whichever other card is playing before starting this one
+    if (stopActiveCard && stopActiveCard !== stopPlayback) {
+      stopActiveCard();
+    }
+    stopActiveCard = stopPlayback;
+
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(err => {
+        console.log('Audio play error:', err);
         setIsPlaying(false);
-      } else {
-        audioRef.current.play().catch(err => {
-          console.log('Audio play error:', err);
-          // Fallback: could show a message or use text-to-speech
-        });
-        setIsPlaying(true);
-      }
-    } else {
+        releaseActive();
+      });
+      setIsPlaying(true);
+    } else if ('speechSynthesis' in window) {
       // Fallback: Use Web Speech API as alternative
-      if ('speechSynthesis' in window && !isPlaying) {
-        const utterance = new SpeechSynthesisUtterance(`${animal.name} says ${animal.name}`);
-        utterance.rate = 0.8;
-        utterance.pitch = 1;
-        speechSynthesis.speak(utterance);
-        setIsPlaying(true);
-        setTimeout(() => setIsPlaying(false), 2000);
-      }
+      const utterance = new SpeechSynthesisUtterance(`${animal.name} says ${animal.name}`);
+      utterance.rate = 0.8;
+      utterance.pitch = 1;
+      speechSynthesis.speak(utterance);
+      setIsPlaying(true);
+      setTimeout(() => {
+        setIsPlaying(false);
+        releaseActive();
+      }, 2000);
     }
   };
 
@@ -97,6 +132,7 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
           alt={animal.name}
           className="animal-card-image"
           loading="lazy"
+          onError={() => console.warn(`[asset] Image failed to load for ${animal.name}: ${animal.image || '(empty URL)'}`)}
         />
       </div>
 

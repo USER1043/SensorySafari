@@ -241,6 +241,7 @@ function MatchingGame({ animals: allAnimals, loading }) {
                 <img
                   src={animal.image}
                   alt={animal.name}
+                  onError={() => console.warn(`[asset] Image failed to load for ${animal.name}: ${animal.image || '(empty URL)'}`)}
                 />
                 {isMatched(animal.id) && (
                   <span className="match-check">✓</span>

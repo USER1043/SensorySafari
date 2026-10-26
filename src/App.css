@@ -1,1 +1,25 @@
 /* App-specific styles - minimal since most styling is in components */
+.load-error {
+  margin: 1rem auto;
+  max-width: 900px;
+  padding: 1rem 1.25rem;
+  border: 2px solid #d9534f;
+  border-radius: 12px;
+  background: #fdecea;
+  color: #611a15;
+  word-break: break-word;
+}
+
+.load-error p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.load-error button {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #d9534f;
+  color: #fff;
+  cursor: pointer;
+}

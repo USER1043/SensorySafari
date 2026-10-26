@@ -1,18 +1,59 @@
-const API_URL = import.meta.env.VITE_API_URL + "/api";
+const API_BASE = import.meta.env.VITE_API_URL;
+const API_URL = API_BASE + "/api";
+
+// VITE_API_URL is baked in at build time, so a missing value on the host's build env
+// produces requests to "undefined/api/..." instead of the backend.
+if (!API_BASE) {
+    console.error('[api] VITE_API_URL is not set at build time. Requests will go to', API_URL);
+} else {
+    console.info('[api] Using backend:', API_URL);
+}
+
+// Turns the various ways the request can fail into one readable message.
+const describeFetchFailure = async (url, err, response) => {
+    if (err) {
+        // fetch() only rejects on network-level failures: backend down/asleep, wrong URL,
+        // CORS rejection, or mixed content (https page calling an http API).
+        return `Could not reach the backend at ${url}. It may be offline or asleep, the URL may be wrong, ` +
+            `or the request was blocked by CORS (check FRONTEND_URL on the backend). Original error: ${err.message}`;
+    }
+    const body = await response.text().catch(() => '');
+    return `Backend responded ${response.status} ${response.statusText} for ${url}: ${body.slice(0, 200)}`;
+};
 
 export const fetchAnimals = async () => {
+    const url = `${API_URL}/animals`;
+    let response;
     try {
-        const response = await fetch(`${API_URL}/animals`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch animals');
-        }
+        response = await fetch(url);
+    } catch (err) {
+        const message = await describeFetchFailure(url, err);
+        console.error('[api]', message);
+        throw new Error(message, { cause: err });
+    }
+
+    if (!response.ok) {
+        const message = await describeFetchFailure(url, null, response);
+        console.error('[api]', message);
+        throw new Error(message);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+        // Usually means VITE_API_URL points at the frontend host, which serves index.html.
+        const message = `Expected JSON from ${url} but got "${contentType}". VITE_API_URL probably points at the wrong host.`;
+        console.error('[api]', message);
+        throw new Error(message);
+    }
+
+    try {
         const data = await response.json();
 
         // Transform data to match frontend expectations
         // Frontend expects: id, name, category, image, audio or sound, facts, habitat
         // Backend provides: _id, name, category, image: { url, ... }, audio: { url, ... }, facts, habitat
 
-        return data.map(animal => ({
+        const animals = data.map(animal => ({
             id: animal._id,
             name: animal.name,
             category: animal.category,
@@ -21,26 +62,32 @@ export const fetchAnimals = async () => {
             facts: animal.facts || animal.description || '',
             habitat: animal.habitat || '',
         }));
+
+        const missingAssets = animals.filter(a => !a.image || !a.sound);
+        console.info(`[api] Loaded ${animals.length} animals`);
+        if (missingAssets.length) {
+            console.warn('[api] Animals with no image/sound URL in the database:', missingAssets.map(a => a.name));
+        }
+        return animals;
     } catch (error) {
-        console.error('Error fetching animals:', error);
-        return [];
+        console.error('[api] Error parsing animals response:', error);
+        throw error;
     }
 };
 
-export const createAnimal = async (animalData) => {
+export const createAnimal = async (formData, adminPassword) => {
     try {
-        const isFormData = animalData instanceof FormData;
-        const headers = isFormData ? {} : { 'Content-Type': 'application/json' };
-
         const response = await fetch(`${API_URL}/animals`, {
             method: 'POST',
-            headers: headers,
-            body: isFormData ? animalData : JSON.stringify(animalData),
+            headers: { Authorization: `Bearer ${adminPassword}` },
+            body: formData,
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to create animal');
+            const errorData = await response.json().catch(() => ({}));
+            const error = new Error(errorData.message || `Failed to create animal (${response.status})`);
+            error.status = response.status;
+            throw error;
         }
 
         const newAnimal = await response.json();
