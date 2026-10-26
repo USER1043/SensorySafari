@@ -25,7 +25,8 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
           utterance.rate = 0.8;
           speechSynthesis.speak(utterance);
         }
-        console.log(`Audio file not found: ${animal.sound}`);
+        // MediaError codes: 2 = network, 3 = decode, 4 = not found / unsupported
+        console.warn(`[asset] Audio failed to load for ${animal.name} (MediaError ${audioObj.error?.code}): ${animal.sound || '(empty URL)'}`);
       };
       audioRef.current = audioObj;
     } catch (error) {
@@ -97,6 +98,7 @@ function AnimalCard({ animal, showFacts = false, onClick }) {
           alt={animal.name}
           className="animal-card-image"
           loading="lazy"
+          onError={() => console.warn(`[asset] Image failed to load for ${animal.name}: ${animal.image || '(empty URL)'}`)}
         />
       </div>
 

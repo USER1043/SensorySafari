@@ -14,18 +14,23 @@ import './App.css';
 function App() {
   const [animals, setAnimals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+
+  const loadAnimals = async () => {
+    setLoading(true);
+    setLoadError(null);
+    try {
+      const data = await fetchAnimals();
+      setAnimals(data);
+    } catch (error) {
+      console.error("Failed to load animals", error);
+      setLoadError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadAnimals = async () => {
-      try {
-        const data = await fetchAnimals();
-        setAnimals(data);
-      } catch (error) {
-        console.error("Failed to load animals", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     loadAnimals();
   }, []);
 
@@ -43,6 +48,15 @@ function App() {
   return (
     <Router>
       <Layout>
+        {loadError && (
+          <div className="load-error" role="alert">
+            <strong>Couldn't load animals.</strong>
+            <p>{loadError}</p>
+            <button onClick={loadAnimals} disabled={loading}>
+              {loading ? 'Retrying...' : 'Try again'}
+            </button>
+          </div>
+        )}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/gallery" element={<AnimalGallery animals={animals} loading={loading} />} />

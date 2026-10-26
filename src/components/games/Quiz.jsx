@@ -177,7 +177,7 @@ function Quiz({ animals, loading }) {
       };
 
       audio.onerror = () => {
-        console.log('Audio play error');
+        console.warn(`[asset] Audio failed to load for ${animal.name} (MediaError ${audio.error?.code}): ${animal.sound || '(empty URL)'}`);
         setIsAudioPlaying(false);
         audioRef.current = null;
         // Fallback to text-to-speech
