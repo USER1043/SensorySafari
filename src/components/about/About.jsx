@@ -25,6 +25,12 @@ const mediaCredits = [
     },
 ];
 
+// Every animal sound except the cow is an unmodified download from this site.
+const soundLibraryCredit = {
+    name: "FreeAnimalSounds",
+    url: "https://freeanimalsounds.org/",
+};
+
 function About() {
     return (
         <div className="about-container">
@@ -168,6 +174,14 @@ function About() {
                     </div>
 
                     <ul className="credits-list">
+                        <li className="credit-item">
+                            <span className="credit-label">Animal sounds</span>
+                            All animal sounds except the cow are from{" "}
+                            <a href={soundLibraryCredit.url} target="_blank" rel="noopener noreferrer">
+                                {soundLibraryCredit.name}
+                            </a>{" "}
+                            (freeanimalsounds.org), a free animal sound library.
+                        </li>
                         {mediaCredits.map((credit) => (
                             <li key={credit.source} className="credit-item">
                                 <span className="credit-label">
